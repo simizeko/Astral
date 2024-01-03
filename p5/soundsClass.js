@@ -49,9 +49,9 @@ const cheby = new Tone.Chebyshev({
 
 const blurryskies = new Tone.Sampler({
     urls: {
-        "C4": "https://github.com/simizeko/Astral/blob/main/audio/blurryskiesC3.wav",
-        "E4": "https://github.com/simizeko/Astral/blob/main/audio/blurryskiesE3.wav",
-        "G4": "https://github.com/simizeko/Astral/blob/main/audio/blurryskiesG3.wavv"
+        "C4": "audio/blurryskiesC3.wav",
+        "E4": "audio/blurryskiesE3.wav",
+        "G4": "audio/blurryskiesG3.wavv"
     },
     attack: 0,
     release: 3,
