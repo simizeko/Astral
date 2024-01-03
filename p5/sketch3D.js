@@ -419,21 +419,6 @@ function draw() {
 
     sounds.ModeSelect();
 
-    // console.log(slow, medium, fast);
-    // console.log(rotate);
-    // console.log(defineScale);
-    // console.log(options.gridOn, options.gridFade);
-    // console.log(options.showFPS);
-    // console.log(reverb.numberOfOutputs);
-    // console.log(cc.counter);
-    // console.log(sun.radius);
-    // console.log(sun.mass);
-    // console.log(createPlanet);
-    // print(mergePlanets);
-    // print(midiInputVal);
-    // print(midi.outputChannel);
-    // print(lengthVal);
-    print(fullScrn);
 }
 
 
