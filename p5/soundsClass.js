@@ -51,7 +51,7 @@ const blurryskies = new Tone.Sampler({
     urls: {
         "C4": "audio/blurryskiesC3.wav",
         "E4": "audio/blurryskiesE3.wav",
-        "G4": "audio/blurryskiesG3.wavv"
+        "G4": "audio/blurryskiesG3.wav"
     },
     attack: 0,
     release: 3,
