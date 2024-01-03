@@ -418,7 +418,7 @@ function draw() {
     }
 
     sounds.ModeSelect();
-
+    pixelDensity(1);
 }
 
 
