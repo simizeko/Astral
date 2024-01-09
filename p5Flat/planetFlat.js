@@ -7,7 +7,6 @@ class Planets {
 
         this.initialD = p5.Vector.sub(center, this.position);
         // this.initialD.normalize(); //sets initial velocity to 1
-        // this.initialD.setMag(1.25 * orbitSpeed.initialMag);
         this.initialD.setMag(1 * orbitSpeed.initialMag);
         this.initialVelocity = this.initialD.rotate(PI / -2);
 
@@ -40,22 +39,14 @@ class Planets {
 
 
     show() {
-        if (desktop) {
-            push();
-            ambientMaterial(255);
-            translate(this.position.x, this.position.y, 0);
-            sphere(this.radius / 2, 9, 9);
-            pop();
-        } else {
-            push();
-            noStroke();
-            fill(cc.R, cc.G, cc.B);
-            ellipse(this.position.x, this.position.y, this.radius);
-            pop();
-        }
+        push();
+        noStroke();
+        fill(cc.R, cc.G, cc.B);
+        ellipse(this.position.x, this.position.y, this.radius);
+        pop();
     }
 
-    showGravity() {
+    ShowGravity() {
         if (showGravity) {
             push();
             stroke(cc.highlight, 100);
@@ -64,14 +55,18 @@ class Planets {
 
         }
 
+        
+
         if (showInfluence) {
             push();
             noStroke();
             fill(255, 40);
             ellipse(this.position.x, this.position.y, this.radius * this.influence * 2);
             pop();
+
         }
     }
+
 
     intersects(other) {
         let d = dist(this.position.x, this.position.y, other.position.x, other.position.y);
@@ -99,11 +94,7 @@ class Planets {
 
             // Keep the sun from gaining mass and growing in size
             sun.mass = sunMass;
-            if (desktop) {
-                sun.radius = sun.dr;
-            } else {
-                sun.radius = sun.mr;
-            }
+            sun.radius = height/10;
 
             return true;
         } else {
@@ -115,8 +106,6 @@ class Planets {
     proximity(other) {
         let p = dist(this.position.x, this.position.y, other.position.x, other.position.y);
         if (p < this.radius * this.influence) {
-            // background(255, 50);
-            // return true;
             let force = p5.Vector.sub(this.position, other.position);
             let distanceSq = constrain(force.magSq(), 10000, 25000);
             let G = planetGravityStrength; // gravity strength
@@ -126,7 +115,7 @@ class Planets {
 
             if (showGravity) {
                 push();
-                stroke(255, 100);
+                stroke(cc.highlight, 100);
                 line(this.position.x, this.position.y, other.position.x, other.position.y)
                 pop();
             }
@@ -134,30 +123,28 @@ class Planets {
     }
 
 
-
     edges() {
-        if (desktop) {
-            if (this.position.y + this.radius / 2 >= height / 2) {
-                this.position.y = height / 2 - this.radius / 2;
-                this.velocity.y *= -0.02;
-            } else if (this.position.y - this.radius / 2 <= -height / 2) {
-                this.position.y = -height / 2 + this.radius / 2;
-                this.velocity.y *= -0.02;
-            }
+        if (this.position.y + this.radius / 2 >= height) {
+            this.position.y = height - this.radius / 2;
+            this.velocity.y *= -0.02;
+        } else if (this.position.y - this.radius / 2 <= 0) {
+            this.position.y = 0 + this.radius / 2;
+            this.velocity.y *= -0.02;
+        }
 
-            if (this.position.x + this.radius / 2 >= width / 2) {
-                this.position.x = width / 2 - this.radius / 2;
-                this.velocity.x *= -0.02;
-            } else if (this.position.x - this.radius / 2 <= -width / 2) {
-                this.position.x = -width / 2 + this.radius / 2;
-                this.velocity.x *= -0.02;
-            }
+        if (this.position.x + this.radius / 2 >= width) {
+            this.position.x = width - this.radius / 2;
+            this.velocity.x *= -0.02;
+        } else if (this.position.x - this.radius / 2 <= 0) {
+            this.position.x = 0 + this.radius / 2;
+            this.velocity.x *= -0.02;
         }
     }
 
     attachSounds(sounds) {
         this.sounds = sounds
     }
+
 }
 
 

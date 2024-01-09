@@ -1,16 +1,6 @@
-// let ccbg = [];
-// let ccsun = [];
-// let ccstars = [];
-// let ccHighlight = [];
-// let ccR;
-// let ccG;
-// let ccB;
 
 class Colours {
-    constructor(initial) {
-
-        // this.normalSphere = initial.normalSphere;
-        // this.gradient = initial.gradient;
+    constructor() {
 
         this.counter = 0;
 
@@ -18,13 +8,8 @@ class Colours {
         this.sun = color(255, 255, 255);
         this.stars = color(255, 255, 255);
         this.highlight = 255;
-        if (desktop) {
-            this.alpha = 50;
-            this.alphaReset = 50;
-        } else {
-            this.alpha = 80
-            this.alphaReset = 80;
-        }
+        this.alpha = 255;
+        this.alphaReset = 255;
         this.R = 255;
         this.G = 255;
         this.B = 255;
@@ -81,6 +66,7 @@ class Colours {
 
         this.palettes = [this.mono, this.red, this.blue, this.purple, this.orange];
         // shuffle(this.palettes);
+        // this.active(this.palettes[0]);
     }
 
     transition(next) {
@@ -93,32 +79,18 @@ class Colours {
         this.B = lerp(this.B, next.B, 0.03);
     }
 
-    fadeout(timer) {
-        if (timer >= 7) {
-            this.alpha += -0.5;
+    Fadeout(timer) {
+        if (timer >= 5) {
+            // this.alpha += -0.02;
+            this.alpha += -2;
         }
-        else { this.alpha = this.alphaReset }
+        else { this.alpha = this.alphaReset };
         // if (cc.alpha <= 0) {
         //     return true;
         // } return false;
     }
 
     colourChange() {
-        // if (planets.length == 3) {
-        //     // this.transition(this.mono, this.red);
-        //     this.active(this.palettes[1])
-        // } if (planets.length >= 6) {
-        //     // this.transition(this.red, this.mono);
-        //     this.active(this.palettes[2])
-        // } if (planets.length >= 9) {
-        //     // this.transition(this.red, this.mono);
-        //     this.active(this.palettes[3])
-        // }
-
-        // if (cam.counter = 5000) {
-        // if (planets.length <= 2) {
-        //     this.transition(this.mono);
-        // }
         if (colVal) {
             if (this.counter < 20) {
                 this.transition(this.palettes[0]);
@@ -141,7 +113,6 @@ class Colours {
             }
         }
 
-        // Counter resets when reaches 100 to loop back through colours
         if (this.counter >= 100) {
             this.counter = 0
         }

@@ -4,12 +4,8 @@
 
 class Dust {
     constructor(tempX, tempY, tempM, center) {
-        if (desktop) {
-            this.position = createVector(tempX, tempY, 0);
-        }
-        else {
-            this.position = createVector(tempX, tempY);
-        }
+        this.position = createVector(tempX, tempY);
+
         this.initialD = p5.Vector.sub(center, this.position);
         this.initialD.setMag(10);
         this.initialVelocity = this.initialD;
@@ -40,7 +36,7 @@ class Dust {
 
 
     show() {
-        //// dust swirl //////////
+        // dust swirl //////////
         // push();
         // // rotateY(0 + cam.angleY);
         // // ellipse(this.position.x, this.position.y, this.radius);
@@ -50,24 +46,16 @@ class Dust {
         // // ellipse(this.position.x, this.position.y, this.radius);
         // pop();
 
-        
+        push();
         // rotateY(0 + cam.angleY);
         // ellipse(this.position.x, this.position.y, this.radius);
         // emissiveMaterial(255);
-        if (desktop) {
-            push();
-            emissiveMaterial(255);
-            translate(this.position.x, this.position.y, 0);
-            sphere(this.radius / 2);
-            pop();
-        } else {
-            push();
-            noStroke();
-            fill(255, 255, 125);
-            ellipse(this.position.x, this.position.y, this.radius);
-            pop();
-        }
-        
+        noStroke();
+        fill(255, 255, 255, 100);
+        // translate(this.position.x, this.position.y, 0);
+        // sphere(this.radius / 2);
+        ellipse(this.position.x, this.position.y, this.radius);
+        pop();
     }
 
 

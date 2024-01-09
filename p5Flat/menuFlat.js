@@ -81,11 +81,11 @@ class Menu {
         this.gridButtons;
         this.displayButtons = [];
         this.idleButton;
-        this.mergeButtonss
+        this.mergeButtons;
         this.midiButton;
         this.midiModeButton;
         this.channelButtons;
-        this.lengthSlider
+        this.lengthSlider;
         this.outputDropdown;
         this.inputDropdown;
         this.backButton;
@@ -101,7 +101,7 @@ class Menu {
         colVal = true;
         gravVal = false;
         aoeVal = false;
-        fpsVal = false;
+        fpsVal = true;
         idleVal = 'On';
         mergeVal = 'On';
         midiOptions = false;
@@ -174,7 +174,7 @@ class Menu {
         this.Mode('', 'green', this.mode);
         this.Grid('Grid', 'hotpink', this.grid);
         this.Display('Display', 'orange', this.display);
-        this.Idle('Idle Rotation / Zoom', 'cyan');
+        // this.Idle('Idle Rotation / Zoom', 'cyan');
         this.MergePlanets('Collisions', 'red');
         this.ClearPlanets('Reset', 'yellow');
         this.Midi('Midi Options', 'purple');
@@ -283,9 +283,7 @@ class Menu {
         gravVal = this.displayButtons[1].checked();
         aoeVal = this.displayButtons[2].checked();
         fpsVal = this.displayButtons[3].checked();
-        if (desktop) {
-            idleVal = this.idleButton.value();
-        }
+        // idleVal = this.idleButton.value();
         mergeVal = this.mergeButtons.value();
 
         if (midiOptions) {
@@ -327,11 +325,11 @@ class Menu {
             showInfluence = false;
         }
 
-        if (idleVal == 'On') {
-            rotatation = true;
-        } else {
-            rotatation = false;
-        }
+        // if (idleVal == 'On') {
+        //     rotate = true;
+        // } else {
+        //     rotate = false;
+        // }
 
         if (mergeVal == 'On') {
             mergePlanets = true;
@@ -481,22 +479,22 @@ class Menu {
     }
 
     Idle(title, colour, options) {
-        if (desktop) {
-            this.Item(title, colour);
-            // this.idleButton = createCheckbox('', idleVal);
-            this.idleButton = createRadio('Idle');
-            this.idleButton.parent(this.div);
-            this.idleButton.option('On');
-            this.idleButton.option('Off');
-            this.idleButton.selected(idleVal);
-            this.idleButton.style('margin-left', this.padding);
-            this.idleButton.style('margin-right', this.padding);
-            this.idleButton.style('margin-bottom', this.padding);
-        }
+        this.Item(title, colour);
+
+        // this.idleButton = createCheckbox('', idleVal);
+        this.idleButton = createRadio('Idle');
+        this.idleButton.parent(this.div);
+        this.idleButton.option('On');
+        this.idleButton.option('Off');
+        this.idleButton.selected(idleVal);
+        this.idleButton.style('margin-left', this.padding);
+        this.idleButton.style('margin-right', this.padding);
+        this.idleButton.style('margin-bottom', this.padding);
     }
 
     MergePlanets(title, colour, options) {
         this.Item(title, colour);
+
         this.mergeButtons = createRadio('MP');
         this.mergeButtons.parent(this.div);
         this.mergeButtons.option('On');
@@ -509,6 +507,7 @@ class Menu {
 
     ClearPlanets(title, colour) {
         this.Item(title, colour);
+
         this.clearButton = createButton('Clear Planets').addClass('Butt');
         this.clearButton.parent(this.div);
         this.clearButton.style('width', '90%');
@@ -526,6 +525,7 @@ class Menu {
 
     Midi(title, colour, options) {
         this.Item(title, colour);
+
         this.midiButton = createButton('>>>').addClass('Butt');
         this.midiButton.parent(this.div);
         this.midiButton.style('margin-left', this.padding);
@@ -732,12 +732,12 @@ class Menu {
         this.fullB.size(this.buttonSize, this.buttonSize);
         this.fullB.position(windowWidth - this.buttonSize - 20, windowHeight - this.buttonSize - 20);
         this.fullB.style('border-radius', '50%');
-
+       
         if (!fullScrn) {
             this.fullB.style('background-image', fullOpen);
-        } else {
+         } else {
             this.fullB.style('background-image', fullClose);
-        }
+         }
         this.fullB.style('background-position: center');
         this.fullB.style('background-repeat: no-repeat');
         this.fullB.style('background-size: 20px');
@@ -749,6 +749,8 @@ class Menu {
             let fs = fullscreen();
             fullscreen(!fs);
             fullScrn = !fullScrn;
+            menu.counterM = 0;
+            // resizeCanvas(windowWidth, windowHeight);
         }
 
         this.InputStyles();

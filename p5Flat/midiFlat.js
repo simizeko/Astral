@@ -16,6 +16,7 @@ class MidiOut {
 
     }
 
+
     setup() {
         WebMidi
             .enable({ sysex: true })
@@ -23,6 +24,7 @@ class MidiOut {
             .catch(err => alert(err));
 
         function onEnabled() {
+
             // Outputs
             if (WebMidi.inputs.length < 1 && WebMidi.outputs.length < 1) {
                 console.log('No midi device detected');
@@ -69,6 +71,7 @@ class MidiOut {
 
 
     midiListen() {
+
         this.midiCounter++;
         let midiCounterPast = this.midiCounter - 1;
         if (this.midiCounter === 0) {
@@ -93,6 +96,8 @@ class MidiOut {
     }
 
     midiCreate(size) {
+
+        center = createVector(0, 0);
         let newPlanet = new Planets(random(-width / 2 + 100, - sun.radius), 0, size, center);
         newPlanet.attachSounds(new Sounds(newPlanet));
         planets.push(newPlanet);

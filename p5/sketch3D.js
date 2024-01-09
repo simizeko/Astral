@@ -22,10 +22,6 @@ let dust = [];
 let sun;
 let center;
 let grow;
-let monoBH;
-let whiteBH;
-let redBH;
-let midi;
 
 let mapSwayX;
 let mapswayY;
@@ -33,19 +29,14 @@ let swayX;
 let swayY;
 let timer = 5000;
 
-let button;
-// let options;
 let createPlanet = true;
 let showMenu = false;
 let showGravity = false;
 let showInfluence = false;
-let hoverMuteButton = false;
-// let defineScale = 3;
 
 let sunRadius = 4;
-let sunSize;
+let sunMass = 120;
 let initialPlanets = 0;
-// let planetMass = 4;
 let planetInfluence = 2;
 // let planetGravityStrength = 0.65;
 let planetGravityStrength = 0.15;
@@ -56,19 +47,16 @@ let orbitSpeed = {
     // c: 2.65
 }
 let slow = false, medium = true, fast = false;
-let rotate = true;
+let rotatation = true;
 
 let sounds;
+let midi;
 let midiDevice = true;
+let resetCounter = 0;
 
 let cam;
 let camPosition;
-let glow;
 let cc;
-let red;
-let mono;
-let melt;
-let green;
 
 let angleX = 0;	// initialize angle variable
 let angleY = 0;
@@ -76,15 +64,35 @@ let scalar;  // set the radius of camera  movement circle
 let startX = 0;	// set the x-coordinate for the circle center
 let startY = 0;	// set the y-coordinate for the circle center
 
-let fadeout = 255;
-let feedbackS = 0;
-let rings = [];
-
-let trails;
+let desktop = true;
+let debugMode = true;
+let leftSide;
+let topSide;
 
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 
+function FindCenter() {
+    if (desktop) {
+        center = createVector(0, 0, 0);
+        leftSide = -width / 2;
+        topSide = -height / 2;
+    } else {
+        center = createVector(windowWidth / 2, windowHeight / 2);
+        leftSide = 0;
+        topSide = 0;
+    }
+}
+
+function ColourMode(type, colour) {
+    let colourType;
+    if (desktop && type == 'emissive') {
+        colourType = emissiveMaterial(colour)
+    } else {
+        colourType = fill(colour);
+    }
+    return colourType;
+}
 
 function keyPressed() {
     if (keyCode === LEFT_ARROW) {
@@ -107,10 +115,12 @@ function windowResized() {
     menu.fullB.remove()
     menu.MenuButtons();
 
-    // sun.Resize();
-    sunSize = height / sunRadius;
-    sun = new Sun(center.x, center.y, sunSize);
-    cam.Resize();
+    FindCenter();
+    sun = new Sun(center.x, center.y, sunMass);
+
+    if (desktop) {
+        cam.Resize();
+    }
 
     // Checks to see if menu needs resizing
     if (openMenu) {
@@ -128,34 +138,36 @@ function windowResized() {
 /////////////////////////////////////////////////////////
 
 function setup() {
-    setAttributes('antialias', true);
-    base = createCanvas(windowWidth, windowHeight, WEBGL);
+    // setAttributes('antialias', true);
+    if (desktop) {
+        base = createCanvas(windowWidth, windowHeight, WEBGL);
+    } else {
+        base = createCanvas(windowWidth, windowHeight);
+    }
     base.style('position: fixed');
     pixelDensity(1);
-    center = createVector(0, 0, 0);
+    FindCenter();
 
+    sounds = new Sounds();
     midi = new MidiOut();
     midi.setup();
 
-    sunSize = height / sunRadius;
-    sun = new Sun(center.x, center.y, sunSize);
-
-    fadeout = 255;
-    feedbackR = 1;
+    // sunMass = height / sunRadius;
+    sun = new Sun(center.x, center.y, sunMass);
 
     scalar = (height / 2) / tan(PI / 6);
 
     cc = new Colours();
-
-    sounds = new Sounds();
 
     for (let i = 0; i < initialPlanets; i++) {
         planets[i] = new Planets(random(-width / 2 + 100, width / 2 - 100), random(-height / 2 + 100, height / 2 - 100), 1, center);
         planets[i].attachSounds(new Sounds(planets[i]));
     }
 
-    cam = new Cameras();
-    cam.init();
+    if (desktop) {
+        cam = new Cameras();
+        cam.init();
+    }
 
     menu = new Menu();
     if (openMenu) {
@@ -170,7 +182,6 @@ function setup() {
     setInterval(timeIt, 1000);
     setInterval(addDust, 5000);
     setInterval(cc.colourChange(), 5000);
-
 }
 
 /////////////////////////////////////////////////////////
@@ -178,15 +189,13 @@ function setup() {
 
 function speedControl() {
     if (orbitVal === 'I') {
-        // background(0, 255, 0);
         orbitSpeed = {
             initialMag: 2,
             c: 0.8,
-            sunGravity: 0.2
+            sunGravity: 0.33
         }
     }
     if (orbitVal === 'II') {
-        // background(255, 0, 0);
         orbitSpeed = {
             initialMag: 1.3,
             c: 1.85,
@@ -194,7 +203,6 @@ function speedControl() {
         }
     }
     if (orbitVal === 'III') {
-        // background(0, 0, 255);
         orbitSpeed = {
             initialMag: 1.82,
             c: 2.65 * 1.5,
@@ -207,7 +215,7 @@ function speedControl() {
 
 
 function rotateCam() {
-    if (rotate) {
+    if (rotatation && desktop) {
         let rot = map(planets.length, 0, 20, 0, 0.001);
         let rSpeed = constrain(rot, 0, 0.001);
 
@@ -216,30 +224,48 @@ function rotateCam() {
 }
 
 function timeIt() {
-    cam.counter++;
-    if (cam.counter > 10) {
-        rotateCam();
+    if (desktop) {
+        cam.counter++;
+        if (cam.counter > 10) {
+            rotateCam();
+        }
     }
+    resetCounter++;
     cc.counter++;
 }
 
 function mousePressed() {
-    angleY = 0;
-    cam.angleY = 0;
-    sun.angleY = 0;
-    cam.easycam.setState(cam.state1, 0);
-    cam.counter = 0;
-    cam.zSpeed = 0;
+    // FindCenter();
+    if (desktop) {
+        angleY = 0;
+        cam.angleY = 0;
+        sun.angleY = 0;
+        cam.easycam.setState(cam.state1, 0);
+        cam.counter = 0;
+        cam.zSpeed = 0;
+    }
+    resetCounter = 0;
 }
 
 function addDust() {
-    let randomW = [width / 2, -width / 2]
-    let randomH = [height / 2, -height / 2]
-    a = new Dust(random(randomW), random(-height, height), 0.025, center);
-    dust.push(a);
-
-    b = new Dust(random(-width, width), random(randomH), 0.025, center);
-    dust.push(b);
+    let dustSize;
+    let boundary = {
+        w: [],
+        h: []
+    }
+    if (desktop) {
+        dustSize = 0.05;
+        boundary.w = [width / 2, -width / 2];
+        boundary.h = [height / 2, -height / 2];
+    } else {
+        dustSize = 0.1;
+        boundary.w = [-width, width];
+        boundary.h = [-height, height];
+    }
+        a = new Dust(random(boundary.w), random(-height, height), dustSize, center);
+        dust.push(a);
+        b = new Dust(random(-width, width), random(boundary.h), dustSize, center);
+        dust.push(b);
 }
 
 function calculateMass(value) {
@@ -248,12 +274,20 @@ function calculateMass(value) {
 
 function mouseReleased() {
     if (createPlanet) {
-        center = createVector(0, 0);
-        let newPlanet = new Planets(mouseX - width / 2, mouseY - height / 2, grow, center);
-        newPlanet.attachSounds(new Sounds(newPlanet));
-        planets.push(newPlanet);
+        if (desktop) {
+            let newPlanet = new Planets(mouseX - width / 2, mouseY - height / 2, grow, center);
+            newPlanet.attachSounds(new Sounds(newPlanet));
+            planets.push(newPlanet);
+        } else {
+            let newPlanet = new Planets(mouseX, mouseY, grow, center);
+            newPlanet.attachSounds(new Sounds(newPlanet));
+            planets.push(newPlanet);
+        }
+
     }
-    cam.counter = 0;
+    if (desktop) {
+        cam.counter = 0;
+    }
 }
 
 
@@ -271,64 +305,80 @@ function draw() {
     cc.colourChange();
     background(cc.bg);
 
+    sounds.grid();
     speedControl();
 
-    swayX = map(mouseX - width / 2, 0, width, 3, - 3);
-    swayY = map(mouseY - height / 2, 0, height, 3, - 3);
-    swayX = lerp(0, swayX, 0.5);
-    swayY = lerp(0, swayY, 0.5);
+    if (desktop) {
+        swayX = map(mouseX - width / 2, 0, width, 3, - 3);
+        swayY = map(mouseY - height / 2, 0, height, 3, - 3);
+        swayX = lerp(0, swayX, 0.5);
+        swayY = lerp(0, swayY, 0.5);
 
-    let rX = 0;
-    let rY = map(angleY, 0, height, -PI, PI);
 
-    let x = scalar * sin(rY) * cos(rX);
-    let y = scalar * sin(rX) * sin(rY);
-    let z = scalar * cos(rY);
-    // camera(x, y, -z, swayX, swayY, 0, 0, 1, 0);
+        let rX = 0;
+        let rY = map(angleY, 0, height, -PI, PI);
 
-    center = createVector(0, 0, 0);
-    camPosition = createVector(x, y, -z);
+        let x = scalar * sin(rY) * cos(rX);
+        let y = scalar * sin(rX) * sin(rY);
+        let z = scalar * cos(rY);
+        // camera(x, y, -z, swayX, swayY, 0, 0, 1, 0);
 
-    // Lighting settings
-    spotLight(cc.R, cc.G, cc.B, 0, 0, 550, 0, 0, -1, PI / 3, 300)
-    spotLight(cc.R, cc.G, cc.B, 0, 0, -550, 0, 0, 1, PI / 3, 300)
-    ambientLight(cc.bg);
-    pointLight(cc.R, cc.G, cc.B, 0, 0, 0);
-    pointLight(cc.R, cc.G, cc.B, 0, 0, 150);
-    pointLight(cc.R, cc.G, cc.B, 0, 0, -150);
+        camPosition = createVector(x, y, -z);
+
+        // Lighting settings
+        spotLight(cc.R, cc.G, cc.B, 0, 0, 550, 0, 0, -1, PI / 3, 300)
+        spotLight(cc.R, cc.G, cc.B, 0, 0, -550, 0, 0, 1, PI / 3, 300)
+        ambientLight(cc.bg);
+        pointLight(cc.R, cc.G, cc.B, 0, 0, 0);
+        pointLight(cc.R, cc.G, cc.B, 0, 0, 150);
+        pointLight(cc.R, cc.G, cc.B, 0, 0, -150);
+    }
 
     push();
     if (createPlanet && mouseIsPressed) {
         if (grow <= 2) {
-            emissiveMaterial(255, 255, 0, 150);
+            // emissiveMaterial(255, 255, 0, 150);
+            ColourMode('emissive', [255, 255, 0]);
         } else
             if (grow <= 3) {
-                emissiveMaterial(0, 255, 255, 150);
+                // emissiveMaterial(0, 255, 255, 150);
+                ColourMode('emissive', [0, 255, 255]);
             } else
                 if (grow <= 4) {
-                    emissiveMaterial(255, 0, 255, 150);
+                    // emissiveMaterial(255, 0, 255, 150);
+                    ColourMode('emissive', [255, 0, 255]);
                 } else
                     if (grow <= 5) {
-                        emissiveMaterial(0, 255, 0, 150);
+                        // emissiveMaterial(0, 255, 0, 150);
+                        ColourMode('emissive', [0, 255, 0]);
                     } else
                         if (grow <= 6) {
-                            emissiveMaterial(255, 255, 255, 150);
+                            // emissiveMaterial(255, 255, 255, 150);
+                            ColourMode('emissive', [255, 255, 255]);
                         } else
                             if (grow <= 7) {
-                                emissiveMaterial(255, 0, 0, 150)
+                                // emissiveMaterial(255, 0, 0, 150);
+                                ColourMode('emissive', [255, 0, 0]);
                             } else
                                 if (grow <= 8) {
-                                    emissiveMaterial(0, 0, 255, 150)
+                                    // emissiveMaterial(0, 0, 255, 150);
+                                    ColourMode('emissive', [0, 0, 255]);
                                 } else
                                     if (grow <= 9) {
-                                        emissiveMaterial(50, 190, 150, 200)
+                                        // emissiveMaterial(50, 190, 150, 200);
+                                        ColourMode('emissive', [50, 190, 150]);
                                     }
-        push();
-        emissiveMaterial(cc.bg);
-        translate(0, 0, 1);
-        ellipse(mouseX - width / 2, mouseY - height / 2, calculateMass(grow / 2));
-        pop();
-        ellipse(mouseX - width / 2, mouseY - height / 2, calculateMass(grow));
+        if (desktop) {
+            // translate(0, 0, 1);
+            ellipse(mouseX - width / 2, mouseY - height / 2, calculateMass(grow));
+            emissiveMaterial(cc.bg);
+            ellipse(mouseX - width / 2, mouseY - height / 2, calculateMass(grow / 1.85));
+        } else {
+            ellipse(mouseX, mouseY, calculateMass(grow));
+            push();
+            fill(cc.bg);
+            ellipse(mouseX, mouseY, calculateMass(grow / 2.5));
+        }
         // grow += 0.037; //growth speed
         grow += 0.045; //growth speed
     }
@@ -342,16 +392,11 @@ function draw() {
     pop();
 
 
-
-
-
-
     for (let i = planets.length - 1; i >= 0; i--) {
         if (planets[i].intersects(sun)) {
             planets.splice(i, 1);
         }
     }
-
 
     for (let i = planets.length - 1; i >= 0; i--) {
         let overlapping = false;
@@ -390,26 +435,26 @@ function draw() {
             }
         }
 
-
         sun.attract(planets[i]);
-        planets[i].showGravity();
 
         // planets[i].applyForce(gravity);
         planets[i].update();
         planets[i].show();
+        planets[i].showGravity();
         planets[i].edges();
         planets[i].sounds.calculateNote();
+        planets[i].sounds.calculateVelocity();
         planets[i].sounds.trigger();
         planets[i].sounds.visualFeedback();
-        planets[i].sounds.resetVisual()
-        planets[i].sounds.calculateVelocity();
-        planets[i].sounds.calculateLength();
+        // planets[i].sounds.resetVisual()
+        // planets[i].sounds.calculateLength();
     }
 
     sun.stars();
-    cam.update();
-    // cam.HUD(); // Display camera position info for debug
-    sounds.grid();
+    if (desktop) {
+        cam.update();
+        // cam.HUD(); // Display camera position info for debug
+    }
     sun.BHshow();
     midi.listOuts();
 
@@ -418,10 +463,44 @@ function draw() {
     }
 
     sounds.ModeSelect();
-    pixelDensity(1);
+    Debug();
 }
 
+function Debug() {
+    if (debugMode) {
+        push();
+        let cw = width;
+        let ch = height;
+        let ww = windowWidth;
+        let wh = windowHeight;
+        let dw = displayWidth;
+        let dh = displayHeight;
+        let dd = displayDensity();
+        let pd = pixelDensity();
+        let m = meter.getValue();
+        fill(255);
+        textSize(14);
+        text('canvas size: ' + cw + 'x' + ch, leftSide + 25, topSide + 25);
+        text('window size: ' + ww + 'x' + wh, leftSide + 25, topSide + 50);
+        text('display size: ' + dw + 'x' + dh, leftSide + 25, topSide + 75);
+        text("display's density: " + dd, leftSide + 25, topSide + 100);
+        text("active pixel density: " + pd, leftSide + 25, topSide + 125);
+        text("max voices: " + MAX_POLYPHONY, leftSide + 25, topSide + 150);
+        text("blackhole radius: " + round(sun.radius), leftSide + 25, topSide + 175);
+        text("audio meter: " + round(m), leftSide + 25, topSide + 200);
+        text("framerate: " + round(frameRate()), leftSide + 25, topSide + 225);
+        pop();
 
+        // push();
+        // fill(255);
+        // textAlign(CENTER, CENTER);
+        // text(round(sun.radius) + 'px', width / 2, height / 2);
+        // // let m = floor(meter.getValue());
+        // // let m = meter.getValue();
+        // // text(m, width / 2, height / 2);
+        // pop();
+    }
+}
 
 
 
