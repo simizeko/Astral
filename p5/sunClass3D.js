@@ -12,9 +12,9 @@ class Sun {
         } else {
             this.radius = this.mr;
         }
-        this.slice;
-        this.warpW = 60;
+        this.warpW = 50;
         this.slice = createGraphics(this.warpW, this.radius);
+        // this.slice = createGraphics(this.radius, this.radius, P2D);
         this.angle = 0;
         this.sineRot = 0;
         this.x = 0;
@@ -34,6 +34,113 @@ class Sun {
 
     BHshow() {
         if (desktop) {
+
+            // const clientWaitAsync = function (gl, sync, flags = 0, interval_ms = 10) {
+            //     return new Promise(function (resolve, reject) {
+            //         var check = function () {
+            //             var res = gl.clientWaitSync(sync, flags, 0);
+            //             if (res == gl.WAIT_FAILED) {
+            //                 reject();
+            //                 return;
+            //             }
+            //             if (res == gl.TIMEOUT_EXPIRED) {
+            //                 setTimeout(check, interval_ms);
+            //                 return;
+            //             }
+            //             resolve();
+            //         };
+            //         check();
+            //     });
+            // };
+
+            // const readPixelsAsync = function (gl, width, height, buffer) {
+            //     const bufpak = gl.createBuffer();
+            //     gl.bindBuffer(gl.PIXEL_PACK_BUFFER, bufpak);
+            //     gl.bufferData(gl.PIXEL_PACK_BUFFER, buffer.byteLength, gl.STREAM_READ);
+            //     gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, 0);
+            //     var sync = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+            //     if (!sync) return null;
+            //     gl.flush();
+            //     return clientWaitAsync(engine, sync, 0, 10).then(function () {
+            //         gl.deleteSync(sync);
+            //         gl.bindBuffer(gl.PIXEL_PACK_BUFFER, bufpak);
+            //         gl.getBufferSubData(gl.PIXEL_PACK_BUFFER, 0, buffer);
+            //         gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
+            //         gl.deleteBuffer(bufpak);
+            //         return buffer;
+            //     });
+            // };
+
+            // const canvas = document.getElementById('myCanvas');
+            // const gl = canvas.getContext("webgl");
+            // const framebuffer = gl.createFramebuffer();
+
+            // // Bind your framebuffer
+            // gl.bindFramebuffer(gl.READ_FRAMEBUFFER, framebuffer);
+
+            // // Provide output target
+            // const data = new Uint8Array(width * height * 4);
+            // await readPixelsAsync(gl, width, height, data);
+
+
+
+
+
+            // function clientWaitAsync(gl, sync, flags, interval_ms) {
+            //     return new Promise((resolve, reject) => {
+            //       function test() {
+            //         const res = gl.clientWaitSync(sync, flags, 0);
+            //         if (res === gl.WAIT_FAILED) {
+            //           reject();
+            //           return;
+            //         }
+            //         if (res === gl.TIMEOUT_EXPIRED) {
+            //           setTimeout(test, interval_ms);
+            //           return;
+            //         }
+            //         resolve();
+            //       }
+            //       test();
+            //     });
+            //   }
+
+            //   async function getBufferSubDataAsync(
+            //     gl,
+            //     target,
+            //     buffer,
+            //     srcByteOffset,
+            //     dstBuffer,
+            //     /* optional */ dstOffset,
+            //     /* optional */ length,
+            //   ) {
+            //     const sync = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+            //     gl.flush();
+
+            //     await clientWaitAsync(gl, sync, 0, 10);
+            //     gl.deleteSync(sync);
+
+            //     gl.bindBuffer(target, buffer);
+            //     gl.getBufferSubData(target, srcByteOffset, dstBuffer, dstOffset, length);
+            //     gl.bindBuffer(target, null);
+
+            //     return dest;
+            //   }
+
+            //   async function readPixelsAsync(gl, x, y, w, h, format, type, dest) {
+            //     const buf = gl.createBuffer();
+            //     gl.bindBuffer(gl.PIXEL_PACK_BUFFER, buf);
+            //     gl.bufferData(gl.PIXEL_PACK_BUFFER, dest.byteLength, gl.STREAM_READ);
+            //     gl.readPixels(x, y, w, h, format, type, 0);
+            //     gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
+
+            //     await getBufferSubDataAsync(gl, gl.PIXEL_PACK_BUFFER, buf, 0, dest);
+
+            //     gl.deleteBuffer(buf);
+            //     return dest;
+            //   }
+
+
+
             noStroke();
             imageMode(CENTER);
             // this.slice.background(255, 0, 0);
@@ -48,6 +155,7 @@ class Sun {
                 this.jitter = 2.1;
             }
 
+            // Rotating background projection
             push();
             rotateY(this.angleY);
             translate(0, 0, -this.radius / 1.25);
@@ -55,63 +163,42 @@ class Sun {
             ambientLight(255);
             texture(this.slice);
             rotateY(PI);
-            // rotateY(PI/2);
             rotateZ(this.angle);
             sphere(this.radius / 1.25);
             rotateZ(-this.angle)
             this.angle += 0.1;
             pop()
 
+            // Zoomed background projection
             push();
             ambientLight(255);
             rotateY(this.angleY);
             texture(this.slice);
-            // translate(0, 0, -this.radius / 1.1);
-            // rotateY(-PI);
-            // blendMode(SCREEN);
             ellipse(0, 0, this.radius * 1.3);
             blendMode(BLEND);
             translate(0, 0, 2);
             emissiveMaterial(0);
             rotateZ(this.angle);
-            // ellipse(0, 0, this.radius + 5);
-            // noStroke();
             ellipse(0, 0, this.radius);
-            // stroke(cc.highlight);
             strokeWeight(random(1, 6));
             noFill();
             ellipse(0, 0, this.radius * 1.3)
             pop();
 
+            // Inner sphere
             push();
             rotateY(this.angleY);
             noStroke();
-            blendMode(SUBTRACT);
+            // blendMode(REPLACE);
             translate(0, 0, this.radius);
-            ambientMaterial(255);
-            // ellipse(0, 0, this.radius * 1.75)
+            // emissiveMaterial(1);
+            // ambientMaterial(255);
+            fill(0);
             sphere(this.radius / 2.2);
             blendMode(BLEND)
             pop();
 
             this.angleY += cam.angleY;
-
-            // push();
-            // // blendMode(SCREEN);
-            // // texture(this.slice);
-            // fill(255,5)
-            // // rotateZ(-this.angle);
-            // ellipse(0, 0, this.radius*2.75);
-            // // rotateZ(this.angle);
-            // translate(0, 0, 1);
-            // fill(255,5);
-            // ellipse(0, 0, this.radius*3.25);
-            // blendMode(BLEND);
-            // pop();
-            // cam.easycam.endHUD();
-
-
-            // graphics.image(this.slice, 300, 300, 400, 400);
 
             this.rot += 3;
             const numberOseg = 16;
@@ -126,7 +213,7 @@ class Sun {
                 push();
                 noStroke();
                 blendMode(LIGHTEST);
-                specularMaterial(0, 1);
+                emissiveMaterial(255);
                 // translate(0, 0, -sun.radius / 2.5);
                 translate(0, 4, 0)
                 rotateX(PI / 2);
@@ -134,16 +221,10 @@ class Sun {
                 rotateZ(-this.angleY);
                 // rotateZ(this.rot);
                 translate(0, 0, 0 + y)
-
-                // noFill();
-
-                // ambientMaterial(100);
-                // this.ringColour = color(255, 255/8 + 255/10 * (y)/numberOseg);
-                // ellipse(0,0,this.radius * 2);
-                // strokeWeight(0.1);
-                // stroke(cc.highlight);
+                strokeWeight(0.1);
+                stroke(cc.highlight);
                 ellipse(0, 0, currentDiameter / 1.3, currentDiameter * 1.25);
-                blendMode(BLEND);
+                // blendMode(BLEND);
                 pop();
 
                 push();
@@ -152,15 +233,10 @@ class Sun {
                 // this.sineRot += 0.5;
                 this.sineRot += 5;
                 translate(0, 0, 0 + y)
-
-                // noFill();
                 // blendMode(LIGHTEST);
-                // ambientMaterial(100);
-                // this.ringColour = color(255, 255/8 + 255/10 * (y)/numberOseg);
-                specularMaterial(255, 1);
-                // stroke(cc.highlight);
+                fill(255, 5);
                 ellipse(0, 0, currentDiameter);
-                blendMode(BLEND);
+                // blendMode(BLEND);
                 pop();
             }
         } else {
@@ -194,7 +270,8 @@ class Sun {
         if (desktop) {
             push();
             noStroke();
-            let r = (height / 2) / tan(PI / 6); // size of sphere made of dots
+            // let r = (height / 2) / tan(PI / 7.5); // size of sphere made of dots
+            let r = cam.defaultD;
             let total = 10;
             for (let i = 0; i < total; i++) {
                 let longitude = map(i, 0, total, -PI, PI);

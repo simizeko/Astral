@@ -139,14 +139,25 @@ function windowResized() {
 
 function setup() {
     // setAttributes('antialias', true);
+    // setAttributes('version', 2);
+    setAttributes({ version: 2 });
+    setAttributes({ alpha: true });
+
     if (desktop) {
         base = createCanvas(windowWidth, windowHeight, WEBGL);
     } else {
         base = createCanvas(windowWidth, windowHeight);
     }
+    base.id('myCanvas');
     base.style('position: fixed');
-    pixelDensity(1);
+    // pixelDensity(1);
     FindCenter();
+
+    // const canvas = document.getElementById("myCanvas");
+    // let gl = canvas.getContext("webgl");
+    // let tt = gl.getParameter(gl.VERSION);
+    // print(tt);
+    // print(webglVersion);
 
     sounds = new Sounds();
     midi = new MidiOut();
@@ -154,8 +165,6 @@ function setup() {
 
     // sunMass = height / sunRadius;
     sun = new Sun(center.x, center.y, sunMass);
-
-    scalar = (height / 2) / tan(PI / 6);
 
     cc = new Colours();
 
@@ -262,10 +271,10 @@ function addDust() {
         boundary.w = [-width, width];
         boundary.h = [-height, height];
     }
-        a = new Dust(random(boundary.w), random(-height, height), dustSize, center);
-        dust.push(a);
-        b = new Dust(random(-width, width), random(boundary.h), dustSize, center);
-        dust.push(b);
+    a = new Dust(random(boundary.w), random(-height, height), dustSize, center);
+    dust.push(a);
+    b = new Dust(random(-width, width), random(boundary.h), dustSize, center);
+    dust.push(b);
 }
 
 function calculateMass(value) {
@@ -313,17 +322,6 @@ function draw() {
         swayY = map(mouseY - height / 2, 0, height, 3, - 3);
         swayX = lerp(0, swayX, 0.5);
         swayY = lerp(0, swayY, 0.5);
-
-
-        let rX = 0;
-        let rY = map(angleY, 0, height, -PI, PI);
-
-        let x = scalar * sin(rY) * cos(rX);
-        let y = scalar * sin(rX) * sin(rY);
-        let z = scalar * cos(rY);
-        // camera(x, y, -z, swayX, swayY, 0, 0, 1, 0);
-
-        camPosition = createVector(x, y, -z);
 
         // Lighting settings
         spotLight(cc.R, cc.G, cc.B, 0, 0, 550, 0, 0, -1, PI / 3, 300)
@@ -453,7 +451,9 @@ function draw() {
     sun.stars();
     if (desktop) {
         cam.update();
-        // cam.HUD(); // Display camera position info for debug
+        if (debugMode) {
+            cam.debugHUD(); // Display camera position info for debug
+        }
     }
     sun.BHshow();
     midi.listOuts();
@@ -463,42 +463,47 @@ function draw() {
     }
 
     sounds.ModeSelect();
-    Debug();
+    if (debugMode && desktop == false) {
+        Debug2D();
+    }
 }
 
-function Debug() {
-    if (debugMode) {
-        push();
-        let cw = width;
-        let ch = height;
-        let ww = windowWidth;
-        let wh = windowHeight;
-        let dw = displayWidth;
-        let dh = displayHeight;
-        let dd = displayDensity();
-        let pd = pixelDensity();
-        let m = meter.getValue();
-        fill(255);
-        textSize(14);
-        text('canvas size: ' + cw + 'x' + ch, leftSide + 25, topSide + 25);
-        text('window size: ' + ww + 'x' + wh, leftSide + 25, topSide + 50);
-        text('display size: ' + dw + 'x' + dh, leftSide + 25, topSide + 75);
-        text("display's density: " + dd, leftSide + 25, topSide + 100);
-        text("active pixel density: " + pd, leftSide + 25, topSide + 125);
-        text("max voices: " + MAX_POLYPHONY, leftSide + 25, topSide + 150);
-        text("blackhole radius: " + round(sun.radius), leftSide + 25, topSide + 175);
-        text("audio meter: " + round(m), leftSide + 25, topSide + 200);
-        text("framerate: " + round(frameRate()), leftSide + 25, topSide + 225);
-        pop();
+function Debug2D() {
+    push();
+    let cw = width;
+    let ch = height;
+    let ww = windowWidth;
+    let wh = windowHeight;
+    let dw = displayWidth;
+    let dh = displayHeight;
+    let dd = displayDensity();
+    let pd = pixelDensity();
+    let m = meter.getValue();
+    fill(255);
+    textSize(14);
+    text('canvas size: ' + cw + 'x' + ch, leftSide + 25, topSide + 25);
+    text('window size: ' + ww + 'x' + wh, leftSide + 25, topSide + 50);
+    text('display size: ' + dw + 'x' + dh, leftSide + 25, topSide + 75);
+    text("display's density: " + dd, leftSide + 25, topSide + 100);
+    text("active pixel density: " + pd, leftSide + 25, topSide + 125);
+    text("max voices: " + MAX_POLYPHONY, leftSide + 25, topSide + 150);
+    text("blackhole radius: " + round(sun.radius), leftSide + 25, topSide + 175);
+    text("audio meter: " + round(m), leftSide + 25, topSide + 200);
+    text("framerate: " + round(frameRate()), leftSide + 25, topSide + 225);
+    pop();
 
-        // push();
-        // fill(255);
-        // textAlign(CENTER, CENTER);
-        // text(round(sun.radius) + 'px', width / 2, height / 2);
-        // // let m = floor(meter.getValue());
-        // // let m = meter.getValue();
-        // // text(m, width / 2, height / 2);
-        // pop();
+
+    // fill(255, 0, 0);
+
+    for (let i = 0; i <= 4; i++) {
+        push();
+        // emissiveMaterial(255, 0, 0)
+        noFill();
+        strokeWeight(1);
+        stroke(255, 0, 0);
+        rect(-width / 2, -height / 2, width, height)
+        // ellipse(width / 2 - (width / 2 * i), height / 2, 100);
+        pop();
     }
 }
 
