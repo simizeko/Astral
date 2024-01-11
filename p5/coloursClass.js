@@ -79,7 +79,7 @@ class Colours {
             B: 255
         }
 
-        this.palettes = [this.purple, this.red, this.blue, this.purple, this.orange];
+        this.palettes = [this.mono, this.red, this.blue, this.purple, this.orange];
         // shuffle(this.palettes);
     }
 

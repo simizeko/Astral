@@ -63,7 +63,7 @@ class Dust {
         } else {
             push();
             noStroke();
-            fill(255, 255, 125);
+            fill(255, 125);
             ellipse(this.position.x, this.position.y, this.radius);
             pop();
         }

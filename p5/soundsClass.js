@@ -265,7 +265,12 @@ if (debugMode) {
 let bufferSourceStart = Tone.BufferSource.prototype.start;
 let _playingBuffers = [];
 // let MAX_BUFFERS = 10;
-let MAX_POLYPHONY = 6;
+let MAX_POLYPHONY;
+if (desktop) {
+MAX_POLYPHONY = 10;
+} else {
+MAX_POLYPHONY = 6;
+}
 
 // Tone.BufferSource.prototype.start = function (time, offset, duration, gain) {
 //     //console.log(" + ", time, offset, duration, gain);
@@ -503,7 +508,7 @@ class Sounds {
         if (debugMode) {
             textFont(debug);
             textSize(16);
-            text('note velocity: '+nv, this.target.position.x + 12, this.target.position.y + 20);
+            text('note velocity: ' + nv, this.target.position.x + 12, this.target.position.y + 20);
             // let midiV = round(map(nv, 0.5, 1, 40, 127));
             // text('midi velocity: ' + midiV, this.target.position.x + 12, this.target.position.y + 20);
         }

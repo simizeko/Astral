@@ -1,4 +1,3 @@
-let val;
 let menu;
 let orbitVal;
 let modeVal;
@@ -16,7 +15,6 @@ let lengthVal;
 let midiOutputVal;
 let midiInputVal;
 let openMenu;
-let testButton;
 
 //////////////////////
 //////////////////////
@@ -201,8 +199,8 @@ class Menu {
         // for (let i = 0; i < inputs.length; i++) {
         //     this.ids.push(str(i + 1));
         // }
-        // Radio Button styles
 
+        // Radio Button styles
         for (let i = 0; i < inputs.length; i++) {
             inputs[i].size(50, 50);
             inputs[i].style('margin: auto');
@@ -215,7 +213,6 @@ class Menu {
             // inputs[i].style('background', 'black');
             inputs[i].style('border-radius: 50%');
             // inputs[i].id(this.ids[i]);
-
         }
 
         // Button styles
@@ -233,20 +230,36 @@ class Menu {
             butts[i].style('cursor: pointer');
         }
 
+        // // Label styles
+        // let labels = selectAll('label');
+        // for (let i = 0; i < labels.length; i++) {
+        //     //// labels[i].size(50, 50);
+        //     // labels[i].style('width: 50px');
+        //     labels[i].style('background-color: brown');
+        //     // labels[i].style('background: none');
+        //     // labels[i].style('pointer-events: none');
+        //     labels[i].style('font-size', this.labelSize);
+        //     labels[i].style('display: inline-block');
+        //     labels[i].style('text-align: center');
+        //     // labels[i].style('position: absolute');
+        //     // labels[i].style('margin-left: -55px');
+        //     labels[i].style('margin-top: 14px');
+        // }
+
         // Label styles
-        let labels = selectAll('label');
-        for (let i = 0; i < labels.length; i++) {
-            // labels[i].size(50, 50);
-            labels[i].style('width: 50px');
-            labels[i].style('background-color: brown');
-            labels[i].style('background: none');
-            labels[i].style('pointer-events: none');
-            labels[i].style('font-size', this.labelSize);
-            // labels[i].style('display: inline-block');
-            labels[i].style('text-align: center');
-            labels[i].style('position: absolute');
-            labels[i].style('margin-left: -55px');
-            labels[i].style('margin-top: 14px');
+        let spanLabels = selectAll('span');
+        for (let i = 0; i < spanLabels.length; i++) {
+            spanLabels[i].style('pointer-events: none');
+            //// labels[i].size(50, 50);
+            spanLabels[i].style('width: 50px');
+            // spanLabels[i].style('background-color: brown');
+            spanLabels[i].style('background: none');
+            spanLabels[i].style('font-size', this.labelSize);
+            // spanLabels[i].style('display: inline-block');
+            spanLabels[i].style('text-align: center');
+            spanLabels[i].style('position: absolute');
+            spanLabels[i].style('margin-left: -55px');
+            spanLabels[i].style('margin-top: 14px');
         }
 
         // Circle button styles
@@ -295,6 +308,7 @@ class Menu {
             channelVal = this.channelButtons.value();
             lengthVal = this.lengthSlider.value();
 
+            // title change for midi length
             let seconds = map(lengthVal, 0, 8000, 0, 8);
             this.lengthTitle.html('Note Length: ' + seconds + 's');
         }
@@ -362,13 +376,13 @@ class Menu {
         }
 
         // Style for labels of checked inputs
-        let L = selectAll(":checked + label");
+        let L = selectAll(":checked + span");
         for (let j = 0; j < L.length; j++) {
             L[j].style('color: black');
         }
 
         // Style for labels of checked inputs
-        let La = selectAll(":not(:checked) + label");
+        let La = selectAll(":not(:checked) + span");
         for (let j = 0; j < La.length; j++) {
             La[j].style('color: white');
         }

@@ -121,12 +121,7 @@ function windowResized() {
 
     if (desktop) {
         cam.Resize();
-        // let state = cam.easycam.getState();
-        // perspective(PI / 3);
-        // perspective(PI / 3, width / height, state.distance / 10, state.distance * 10);
         perspective(PI / 3, width / height);
-        // perspective(width / height);
-        // perspective(800);
     }
 
     // Checks to see if menu needs resizing
@@ -154,12 +149,7 @@ function setup() {
         base = createCanvas(windowWidth, windowHeight, WEBGL);
         cam = new Cameras();
         cam.init();
-        // let state = cam.easycam.getState();
-        // perspective(width / height);
-        // perspective(800);
         perspective(PI / 3, width / height);
-        // fov = 800;
-        // perspective(fov);
     } else {
         base = createCanvas(windowWidth, windowHeight);
     }
@@ -505,17 +495,18 @@ function Debug2D() {
 
 
     // fill(255, 0, 0);
-
-    for (let i = 0; i <= 4; i++) {
-        push();
-        // emissiveMaterial(255, 0, 0)
-        noFill();
-        strokeWeight(1);
-        stroke(255, 0, 0);
-        rect(-width / 2, -height / 2, width, height)
-        // ellipse(width / 2 - (width / 2 * i), height / 2, 100);
-        pop();
+    push();
+    // emissiveMaterial(255, 0, 0)
+    noFill();
+    strokeWeight(1);
+    stroke(255, 0, 0);
+    if (desktop) {
+        rect(-width / 2, -height / 2, width, height);
+    } else {
+        rect(0, 0, width, height);
     }
+    // ellipse(width / 2 - (width / 2 * i), height / 2, 100);
+    pop();
 }
 
 

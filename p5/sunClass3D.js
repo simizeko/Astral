@@ -144,7 +144,7 @@ class Sun {
             noStroke();
             imageMode(CENTER);
             // this.slice.background(255, 0, 0);
-            this.slice.copy(base, (width / 2) - this.warpW / 2, (height / 2) - this.radius / 2, this.radius, this.radius, this.x, 0, this.radius, this.radius);
+            this.slice.copy(base, int((width / 2) - this.warpW / 2), int((height / 2) - this.radius / 2), int(this.radius), int(this.radius), this.x, 0, int(this.radius), int(this.radius));
             // this.x = (this.x + this.warpW) % this.slice.width;
 
 
