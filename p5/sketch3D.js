@@ -65,7 +65,7 @@ let scalar;  // set the radius of camera  movement circle
 let startX = 0;	// set the x-coordinate for the circle center
 let startY = 0;	// set the y-coordinate for the circle center
 
-let desktop = true;
+let desktop = false;
 let debugMode = true;
 let leftSide;
 let topSide;
