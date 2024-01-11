@@ -8,7 +8,9 @@ class Cameras {
         this.counter = 0;
         this.zSpeed = 0;
         // this.defaultD = (height / 2) / tan(PI / 6);
-        this.defaultD = 800; // New value for p5 update
+        this.defaultD = (height / 2) / tan(PI / 6);
+        // this.defaultD = (height / 2) / tan(fov / 2);
+        // this.defaultD = 800; // New value for p5 update
 
 
         this.state1 = {
@@ -40,7 +42,7 @@ class Cameras {
 
 
     update() {
-        let d = this.defaultD;
+        let d = (height / 2) / tan(PI / 6);
 
         this.easycam.rotateY(this.angleY);
 
@@ -60,7 +62,7 @@ class Cameras {
     Resize() {
         // Recalculates the new defaultD based on window height
         this.state1 = {
-            distance: this.defaultD,
+            distance: (height / 2) / tan(PI / 6),
             center: [0, 0, 0],
             rotation: [1, 0, 0, 0]
         }

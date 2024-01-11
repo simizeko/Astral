@@ -212,8 +212,10 @@ class Sun {
                 // rotateY(PI);
                 push();
                 noStroke();
-                blendMode(LIGHTEST);
+                // blendMode(LIGHTEST);
                 emissiveMaterial(255);
+                // emissiveMaterial(cc.R, cc.G, cc.B);
+                // fill(cc.R, cc.G, cc.B);
                 // translate(0, 0, -sun.radius / 2.5);
                 translate(0, 4, 0)
                 rotateX(PI / 2);
@@ -221,8 +223,9 @@ class Sun {
                 rotateZ(-this.angleY);
                 // rotateZ(this.rot);
                 translate(0, 0, 0 + y)
-                strokeWeight(0.1);
-                stroke(cc.highlight);
+                strokeWeight(1);
+                // stroke(cc.highlight);
+                stroke(cc.R, cc.G, cc.B);
                 ellipse(0, 0, currentDiameter / 1.3, currentDiameter * 1.25);
                 // blendMode(BLEND);
                 pop();
@@ -234,7 +237,7 @@ class Sun {
                 this.sineRot += 5;
                 translate(0, 0, 0 + y)
                 // blendMode(LIGHTEST);
-                fill(255, 5);
+                fill(255, 8);
                 ellipse(0, 0, currentDiameter);
                 // blendMode(BLEND);
                 pop();
@@ -270,8 +273,8 @@ class Sun {
         if (desktop) {
             push();
             noStroke();
-            // let r = (height / 2) / tan(PI / 7.5); // size of sphere made of dots
-            let r = cam.defaultD;
+            let r = (height / 2) / tan(PI / 6); // size of sphere made of dots
+            // let r = cam.defaultD;
             let total = 10;
             for (let i = 0; i < total; i++) {
                 let longitude = map(i, 0, total, -PI, PI);

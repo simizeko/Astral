@@ -57,6 +57,7 @@ let resetCounter = 0;
 let cam;
 let camPosition;
 let cc;
+let fov;
 
 let angleX = 0;	// initialize angle variable
 let angleY = 0;
@@ -120,6 +121,12 @@ function windowResized() {
 
     if (desktop) {
         cam.Resize();
+        // let state = cam.easycam.getState();
+        // perspective(PI / 3);
+        // perspective(PI / 3, width / height, state.distance / 10, state.distance * 10);
+        perspective(PI / 3, width / height);
+        // perspective(width / height);
+        // perspective(800);
     }
 
     // Checks to see if menu needs resizing
@@ -141,10 +148,18 @@ function setup() {
     // setAttributes('antialias', true);
     // setAttributes('version', 2);
     setAttributes({ version: 2 });
-    setAttributes({ alpha: true });
+    // setAttributes({ alpha: true });
 
     if (desktop) {
         base = createCanvas(windowWidth, windowHeight, WEBGL);
+        cam = new Cameras();
+        cam.init();
+        // let state = cam.easycam.getState();
+        // perspective(width / height);
+        // perspective(800);
+        perspective(PI / 3, width / height);
+        // fov = 800;
+        // perspective(fov);
     } else {
         base = createCanvas(windowWidth, windowHeight);
     }
@@ -152,6 +167,7 @@ function setup() {
     base.style('position: fixed');
     // pixelDensity(1);
     FindCenter();
+
 
     // const canvas = document.getElementById("myCanvas");
     // let gl = canvas.getContext("webgl");
@@ -171,11 +187,6 @@ function setup() {
     for (let i = 0; i < initialPlanets; i++) {
         planets[i] = new Planets(random(-width / 2 + 100, width / 2 - 100), random(-height / 2 + 100, height / 2 - 100), 1, center);
         planets[i].attachSounds(new Sounds(planets[i]));
-    }
-
-    if (desktop) {
-        cam = new Cameras();
-        cam.init();
     }
 
     menu = new Menu();
