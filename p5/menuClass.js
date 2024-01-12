@@ -124,6 +124,7 @@ class Menu {
         this.bgFull.style('position: fixed');
         this.bgFull.style('background-color', this.menuColour);
         this.bgFull.style('opacity', this.menuOpacity);
+        this.bgFull.style('-webkit-transform: translateZ(0)');
 
         this.bgHalf = createDiv(' ');
         this.bgHalf.position(0, 0);
@@ -132,6 +133,7 @@ class Menu {
         this.bgHalf.style('position: fixed');
         this.bgHalf.style('background-color', this.menuColour);
         // this.bgHalf.style('z-index', '98');
+        this.bgHalf.style('-webkit-transform: translateZ(0)');
 
         // Space that the items will fill
         this.container = createDiv(' ')
@@ -274,6 +276,7 @@ class Menu {
             circleButtons[i].style('color: white');
             circleButtons[i].style('cursor: pointer');
             circleButtons[i].style('position: fixed');
+            circleButtons[i].style('-webkit-transform: translateZ(0)');
         }
 
         // Keep close button relative
@@ -554,7 +557,7 @@ class Menu {
             this.midiButton = createButton('>>>').addClass('Butt');
             this.midiButton.mousePressed(this.OpenMidiPage);
         } else {
-            this.midiButton = createP('Web MIDI is not supported on Safari, IE, iOS browsers, Opera Mini & Firefox for Android. To access all features please use a different browser');
+            this.midiButton = createP('Web MIDI is not supported on Safari, IE, iOS browsers, Opera Mini & Firefox for Android. To access all features please use a different browser.');
             this.midiButton.style('margin-top', '-10px');
         }
         this.midiButton.parent(this.div);

@@ -154,6 +154,7 @@ function setup() {
     }
     base.id('myCanvas');
     base.style('position: fixed');
+    base.style('-webkit-transform: translateZ(0)');
     // pixelDensity(1);
     FindCenter();
 
