@@ -117,7 +117,7 @@ class Menu {
 
         // Backgrounds with opacity
         this.bgFull = createDiv(' ');
-        this.bgFull.style('z-index: 0')
+        // this.bgFull.style('z-index: 0')
         this.bgFull.position(0, 0);
         this.bgFull.style('width: 100%');
         this.bgFull.style('height: 100%');
@@ -131,12 +131,12 @@ class Menu {
         this.bgHalf.style('height', this.containerHeight);
         this.bgHalf.style('position: fixed');
         this.bgHalf.style('background-color', this.menuColour);
-        this.bgHalf.style('z-index', '98');
+        // this.bgHalf.style('z-index', '98');
 
         // Space that the items will fill
         this.container = createDiv(' ')
         this.container.position(0, 0);
-        this.container.style('z-index', '99');
+        // this.container.style('z-index', '99');
         // this.container.style('background-color', this.menuColour);
         this.container.style('background: none');
         this.container.style('width', this.containerWidth);
@@ -165,6 +165,7 @@ class Menu {
         this.closeButton.style('margin', this.paddingHalf);
         this.closeButton.style('margin-top', this.padding);
         this.closeButton.style('width', this.buttonWidth);
+        this.closeButton.style('height', this.buttonWidth);
         this.closeButton.mouseReleased(this.MenuAccess);
 
         // Creates a menu item
@@ -553,7 +554,7 @@ class Menu {
             this.midiButton = createButton('>>>').addClass('Butt');
             this.midiButton.mousePressed(this.OpenMidiPage);
         } else {
-            this.midiButton = createP('Web MIDI is not supported on Safari, IE, iOS, Opera Mini & Firefox for Android. To access all features please use a different browser');
+            this.midiButton = createP('Web MIDI is not supported on Safari, IE, iOS browsers, Opera Mini & Firefox for Android. To access all features please use a different browser');
             this.midiButton.style('margin-top', '-10px');
         }
         this.midiButton.parent(this.div);
