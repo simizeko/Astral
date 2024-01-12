@@ -476,6 +476,7 @@ class Sounds {
         }
         if (debugMode) {
             push();
+            fill(255);
             textFont(debug);
             textSize(16);
             text('note: ' + ns, x + 12, y + 5);
@@ -491,6 +492,7 @@ class Sounds {
         let nl = constrain(noteL, 0.5, 4);
         if (debugMode) {
             push();
+            fill(255);
             textFont(debug);
             textSize(16);
             // text(this.target.mass, this.target.position.x + 20, this.target.position.y);
@@ -507,8 +509,9 @@ class Sounds {
         let nv = constrain(noteV, 0, 1);
         if (debugMode) {
             textFont(debug);
+            fill(255);
             textSize(16);
-            text('note velocity: ' + nv, this.target.position.x + 12, this.target.position.y + 20);
+            text('n. velocity: ' + nv, this.target.position.x + 12, this.target.position.y + 20);
             // let midiV = round(map(nv, 0.5, 1, 40, 127));
             // text('midi velocity: ' + midiV, this.target.position.x + 12, this.target.position.y + 20);
         }

@@ -540,13 +540,18 @@ class Menu {
 
     Midi(title, colour, options) {
         this.Item(title, colour);
-        this.midiButton = createButton('>>>').addClass('Butt');
+        if (midiAccess == true) {
+            this.midiButton = createButton('>>>').addClass('Butt');
+            this.midiButton.mousePressed(this.OpenMidiPage);
+        } else {
+            this.midiButton = createP('Web MIDI is not supported on Safari, IE, iOS, Opera Mini & Firefox for Android. To access all features please use a different browser');
+            this.midiButton.style('margin-top', '-10px');
+        }
         this.midiButton.parent(this.div);
         this.midiButton.style('margin-left', this.padding);
         this.midiButton.style('margin-right', this.padding);
         this.midiButton.style('margin-bottom', this.padding);
         this.midiButton.style('width: 90%');
-        this.midiButton.mousePressed(this.OpenMidiPage);
     }
 
     OpenMidiPage() {

@@ -53,6 +53,10 @@ class Planets {
             ellipse(this.position.x, this.position.y, this.radius);
             pop();
         }
+        if (debugMode) {
+            textSize(16);
+            text('mass: ' + round(this.mass, 2), this.position.x + 12, this.position.y + 35);
+        }
     }
 
     showGravity() {

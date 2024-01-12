@@ -53,6 +53,7 @@ let sounds;
 let midi;
 let midiDevice = true;
 let resetCounter = 0;
+let midiAccess;
 
 let cam;
 let camPosition;
@@ -373,10 +374,11 @@ function draw() {
             emissiveMaterial(cc.bg);
             ellipse(mouseX - width / 2, mouseY - height / 2, calculateMass(grow / 1.85));
         } else {
-            ellipse(mouseX, mouseY, calculateMass(grow));
             push();
+            ellipse(mouseX, mouseY, calculateMass(grow));
             fill(cc.bg);
             ellipse(mouseX, mouseY, calculateMass(grow / 2.5));
+            pop();
         }
         // grow += 0.037; //growth speed
         grow += 0.045; //growth speed
@@ -460,13 +462,14 @@ function draw() {
     midi.listOuts();
 
     if (menu.midiMode & midiDevice) {
-        midi.midiListen();
+        // midi.midiListen();
     }
 
     sounds.ModeSelect();
     if (debugMode && desktop == false) {
         Debug2D();
     }
+    print(midiAccess);
 }
 
 function Debug2D() {

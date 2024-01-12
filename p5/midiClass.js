@@ -17,22 +17,28 @@ class MidiOut {
     }
 
     setup() {
-        WebMidi
-            .enable({ sysex: true })
-            .then(onEnabled)
-            .catch(err => alert(err));
+        if (!navigator.requestMIDIAccess) {
+            console.warn('The Web Midi API is not supported in this browser');
+            midiAccess = false;
+        } else {
+            midiAccess = true;
+            
+            WebMidi
+                .enable({ sysex: true })
+                .then(onEnabled)
+                .catch(err => alert(err));
 
-        function onEnabled() {
-            // Outputs
-            if (WebMidi.inputs.length < 1 && WebMidi.outputs.length < 1) {
-                console.log('No midi device detected');
-                midiDevice = false;
-            } else {
-                WebMidi.inputs.forEach(input => console.log(input.manufacturer, input.name));
-                WebMidi.outputs.forEach(output => console.log(output.manufacturer, output.name));
+            function onEnabled() {
+                // Outputs
+                if (WebMidi.inputs.length < 1 && WebMidi.outputs.length < 1) {
+                    console.log('No midi device detected');
+                    midiDevice = false;
+                } else {
+                    WebMidi.inputs.forEach(input => console.log(input.manufacturer, input.name));
+                    WebMidi.outputs.forEach(output => console.log(output.manufacturer, output.name));
+                }
             }
         }
-
     }
 
     listOuts() {
