@@ -1,5 +1,5 @@
-let font;
-let debug;
+let debug = 'sans-serif';
+let font = "'Hind', sans-serif";
 let muteWht;
 let muteBlk;
 let menuWht;
@@ -7,8 +7,6 @@ let fullScrn = false;
 let fullOpen;
 
 function preload() {
-    debug = loadFont('./assets/hindRegular.otf');
-    font = loadFont('./assets/hindLight.otf');
     muteWht = 'url(./design/mute1.svg)';
     muteBlk = 'url(./design/muteblk1.svg)';
     menuWht = 'url(./design/menu-thin.svg)';
@@ -469,7 +467,7 @@ function draw() {
     if (debugMode && desktop == false) {
         Debug2D();
     }
-    print(midiAccess);
+    // print(midiAccess);
 }
 
 function Debug2D() {

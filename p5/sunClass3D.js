@@ -272,7 +272,8 @@ class Sun {
     stars() {
         if (desktop) {
             push();
-            noStroke();
+            stroke(cc.stars);
+            strokeWeight(2);
             let r = (height / 2) / tan(PI / 6); // size of sphere made of dots
             // let r = cam.defaultD;
             let total = 10;
@@ -283,8 +284,6 @@ class Sun {
                     let x = r * sin(longitude) * cos(latitude);
                     let y = r * sin(latitude) * sin(longitude);
                     let z = r * cos(longitude);
-                    stroke(cc.stars);
-                    strokeWeight(2);
                     point(x, y, z);
                 }
             }
@@ -292,14 +291,14 @@ class Sun {
         } else {
             push();
             translate(width / 2, height / 2,);
+            stroke(cc.stars);
+            strokeWeight(this.starsSize);
             this.starsRotate += this.starsRotationSpeed;
             for (let j = 0; j <= this.starsRings; j++) {
                 rotate(this.starsRotate);
                 for (let i = this.starsAngle; i < radians(360 + this.starsAngle); i += radians(360 / (this.pointCount * j / 2))) {
                     let x = (this.starsDiameter / 2 * Math.cos(i)) * j + width / 2;
                     let y = (this.starsDiameter / 2 * Math.sin(i)) * j + height / 2;
-                    stroke(cc.stars);
-                    strokeWeight(this.starsSize);
                     point(x - width / 2, y - height / 2);
                 }
             }

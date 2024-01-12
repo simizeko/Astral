@@ -142,7 +142,7 @@ class Menu {
         this.container.style('width', this.containerWidth);
         this.container.style('height', this.containerHeight);
         this.container.style('color: white'); // text colour
-        this.container.style('font-family: hind');
+        this.container.style('font-family', font);
 
         // Creates top bar container
         this.topDiv = createDiv(' ');
@@ -159,7 +159,7 @@ class Menu {
         this.h1.style('font-weight: 100');
 
         // close button
-        this.closeButton = createButton('X').addClass('CB');
+        this.closeButton = createButton('X').addClass('CB').id('closeB');
         this.closeButton.parent(this.topDiv);
         this.closeButton.style('float: right');
         this.closeButton.style('margin', this.paddingHalf);
@@ -272,6 +272,15 @@ class Menu {
             circleButtons[i].style('border: 1px solid grey');
             circleButtons[i].style('color: white');
             circleButtons[i].style('cursor: pointer');
+            circleButtons[i].style('position: fixed');
+        }
+
+        // Keep close button relative
+        let closeB = selectAll('#closeB');
+        for (let i = 0; i < closeB.length; i++) {
+        print(closeB);
+        closeB[i].style('position: relative');
+        closeB[i].style('background-color', 'black');
         }
 
         // Return selected to (almost) default appearance
@@ -784,7 +793,7 @@ class Menu {
     FpsCounter() {
         this.fpsCounter = createP('');
         this.fpsCounter.position(windowWidth - 50 - 15, 0);
-        this.fpsCounter.style('font-family: hind');
+        this.fpsCounter.style('font-family', font);
         this.fpsCounter.style('text-align: right');
         this.fpsCounter.style('width: 50px');
         this.fpsCounter.style('color: white');
