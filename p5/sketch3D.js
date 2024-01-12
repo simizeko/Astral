@@ -245,6 +245,7 @@ function timeIt() {
 
 function mousePressed() {
     // FindCenter();
+    Tone.context.resume();
     if (desktop) {
         angleY = 0;
         cam.angleY = 0;
