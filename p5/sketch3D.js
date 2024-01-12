@@ -246,7 +246,6 @@ function timeIt() {
 
 function mousePressed() {
     // FindCenter();
-    Tone.context.resume();
     if (desktop) {
         angleY = 0;
         cam.angleY = 0;
@@ -370,11 +369,13 @@ function draw() {
                                     }
         if (desktop) {
             // translate(0, 0, 1);
+            noStroke();
             ellipse(mouseX - width / 2, mouseY - height / 2, calculateMass(grow));
             emissiveMaterial(cc.bg);
             ellipse(mouseX - width / 2, mouseY - height / 2, calculateMass(grow / 1.85));
         } else {
             push();
+            noStroke();
             ellipse(mouseX, mouseY, calculateMass(grow));
             fill(cc.bg);
             ellipse(mouseX, mouseY, calculateMass(grow / 2.5));
@@ -469,7 +470,7 @@ function draw() {
     if (debugMode && desktop == false) {
         Debug2D();
     }
-    print(Tone.context.state);
+    print('Audio Context: ' + Tone.context.state);
 }
 
 function Debug2D() {

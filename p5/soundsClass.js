@@ -384,7 +384,7 @@ class Sounds {
     }
 
     trigger() {
-        Tone.context.resume();
+        // Tone.context.resume();
         if (this.target.pastPosition.x <= center.x && this.target.position.x > center.x && this.target.mass >= 1 && menu.muteAudio === false || this.target.pastPosition.x >= center.x && this.target.position.x < center.x && this.target.mass >= 1 && menu.muteAudio === false) {
             // if (this.target.position.x < 1 && this.target.position.x > - 1 && this.target.mass >= 1 && options.muteAudio === false) {
             // this.visualFeedback(this.target.position.x, this.target.position.y)

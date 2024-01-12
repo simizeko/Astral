@@ -207,7 +207,7 @@ class Menu {
             inputs[i].style('margin-right', '5px');
             inputs[i].style('margin-bottom', '5px');
             // inputs[i].style('clip-path: circle(46% at 50% 50%)');
-            inputs[i].style('appearance', 'none');
+            inputs[i].style('-webkit-appearance', 'none');
             inputs[i].style('border', '1px solid grey');
             inputs[i].style('cursor', 'pointer');
             // inputs[i].style('background', 'black');
@@ -286,7 +286,7 @@ class Menu {
         // Return selected to (almost) default appearance
         let defaultS = selectAll('.defaultStyle');
         for (let i = 0; i < defaultS.length; i++) {
-            defaultS[i].style('appearance: auto');
+            defaultS[i].style('-webkit-appearance: auto');
             defaultS[i].style('border', 'none');
             defaultS[i].style('width', '90%');
             defaultS[i].style('height', 'auto');
