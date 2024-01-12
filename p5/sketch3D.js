@@ -245,7 +245,7 @@ function timeIt() {
 
 function mousePressed() {
     // FindCenter();
-    Tone.context.resume();
+    // Tone.context.resume();
     if (desktop) {
         angleY = 0;
         cam.angleY = 0;
@@ -468,7 +468,7 @@ function draw() {
     if (debugMode && desktop == false) {
         Debug2D();
     }
-    // print(midiAccess);
+    print(Tone.context.state);
 }
 
 function Debug2D() {
