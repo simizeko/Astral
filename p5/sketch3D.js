@@ -165,6 +165,7 @@ function setup() {
     // print(webglVersion);
 
     sounds = new Sounds();
+    Tone.context.resume();
     midi = new MidiOut();
     midi.setup();
 
