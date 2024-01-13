@@ -15,7 +15,8 @@ class Planets {
         this.accel = createVector(0, 0);
         this.mass = tempM;
         this.radius = calculateMass(this.mass);
-        this.influence = this.mass * planetInfluence;
+        // this.influence = this.mass * planetInfluence;
+        this.influence = this.mass;
         this.counter = 0;
         this.sounds = null;
     }
@@ -34,7 +35,10 @@ class Planets {
         this.velocity.limit(orbitSpeed.c);
         this.accel.set(0, 0);
         // let temp = this.velocity.mag();
-        // console.log('velocity mag:', temp);
+        
+        if (this.influence < 2) {
+            this.influence = 2
+        }
     }
 
 
@@ -87,8 +91,9 @@ class Planets {
                 // lerp(this.radius, newRadius, 0.05);
                 other.radius = sqrt(sum / PI); // Makes the other planet when bigger
                 // other.radius = lerp(other.radius, sqrt(sum / PI), 1);
-                other.mass += this.mass * 0;
-                other.influence = (other.mass + this.mass * planetInfluence);
+                other.mass += this.mass * 1;
+                // other.influence = (other.mass + this.mass * planetInfluence);
+                other.influence = (other.mass + this.mass);
                 // other.mass = lerp(other.mass, other.mass += this.mass, 0.0001);
                 // other.accel += this.accel;
             }

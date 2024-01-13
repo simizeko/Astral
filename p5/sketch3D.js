@@ -1,5 +1,5 @@
-let debug = 'sans-serif';
-let font = "'Hind', sans-serif";
+// let debug = 'sans-serif';
+let font;
 let muteWht;
 let muteBlk;
 let menuWht;
@@ -7,6 +7,7 @@ let fullScrn = false;
 let fullOpen;
 
 function preload() {
+
     muteWht = 'url(./design/mute1.svg)';
     muteBlk = 'url(./design/muteblk1.svg)';
     menuWht = 'url(./design/menu-thin.svg)';
@@ -36,8 +37,9 @@ let sunRadius = 4;
 let sunMass = 120;
 let initialPlanets = 0;
 let planetInfluence = 2;
-// let planetGravityStrength = 0.65;
-let planetGravityStrength = 0.15;
+let planetGravityStrength = 0.65;
+// let planetGravityStrength = 0.15;
+// let planetGravityStrength = 1;
 let mergePlanets = true;
 
 let orbitSpeed = {
@@ -139,17 +141,20 @@ function windowResized() {
 /////////////////////////////////////////////////////////
 
 function setup() {
+
     // setAttributes('antialias', true);
     // setAttributes('version', 2);
     setAttributes({ version: 2 });
     // setAttributes({ alpha: true });
 
     if (desktop) {
+        font = loadFont('./assets/hindLight.otf')
         base = createCanvas(windowWidth, windowHeight, WEBGL);
         cam = new Cameras();
         cam.init();
         perspective(PI / 3, width / height);
     } else {
+        font = "'Hind', 'sans-serif'";
         base = createCanvas(windowWidth, windowHeight);
     }
     base.id('myCanvas');
@@ -162,11 +167,9 @@ function setup() {
     // const canvas = document.getElementById("myCanvas");
     // let gl = canvas.getContext("webgl");
     // let tt = gl.getParameter(gl.VERSION);
-    // print(tt);
-    // print(webglVersion);
 
     sounds = new Sounds();
-    Tone.context.resume();
+    // Tone.context.resume();
     midi = new MidiOut();
     midi.setup();
 
@@ -472,7 +475,7 @@ function draw() {
     if (debugMode && desktop == false) {
         Debug2D();
     }
-    print('Audio Context: ' + Tone.context.state);
+    // print('Audio Context: ' + Tone.context.state);
 }
 
 function Debug2D() {

@@ -77,7 +77,7 @@ class Cameras {
         this.easycam.beginHUD();
         noLights();
         textSize(14);
-        textFont(debug);
+        textFont(font);
         let state = this.easycam.getState();
         let x = 20;
         let y = 20;

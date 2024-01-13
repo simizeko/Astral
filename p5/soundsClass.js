@@ -267,9 +267,9 @@ let _playingBuffers = [];
 // let MAX_BUFFERS = 10;
 let MAX_POLYPHONY;
 if (desktop) {
-MAX_POLYPHONY = 10;
+    MAX_POLYPHONY = 10;
 } else {
-MAX_POLYPHONY = 6;
+    MAX_POLYPHONY = 6;
 }
 
 // Tone.BufferSource.prototype.start = function (time, offset, duration, gain) {
@@ -384,7 +384,7 @@ class Sounds {
     }
 
     trigger() {
-        Tone.context.resume();
+        // Tone.context.resume();
         if (this.target.pastPosition.x <= center.x && this.target.position.x > center.x && this.target.mass >= 1 && menu.muteAudio === false || this.target.pastPosition.x >= center.x && this.target.position.x < center.x && this.target.mass >= 1 && menu.muteAudio === false) {
             // if (this.target.position.x < 1 && this.target.position.x > - 1 && this.target.mass >= 1 && options.muteAudio === false) {
             // this.visualFeedback(this.target.position.x, this.target.position.y)
@@ -467,7 +467,14 @@ class Sounds {
 
     calculateNote() {
         const { x, y } = this.target.position;
-        let noteSector = int(map(y, -height / 2, height / 2, - 10, 10));
+        let noteSector;
+        // if (desktop) {
+        //     noteSector = int(map(y, -height / 2, height / 2, - 10, 10));
+        // } else {
+        //     noteSector = int(map(y, 0, height, - 10, 10));
+        // }
+        noteSector = int(map(y, center.y - height / 2, center.y + height / 2, - 10, 10));
+
         let ns = (abs(noteSector) - 1);
         if (ns <= -1) {
             ns = 0
@@ -478,7 +485,7 @@ class Sounds {
         if (debugMode) {
             push();
             fill(255);
-            textFont(debug);
+            textFont(font);
             textSize(16);
             text('note: ' + ns, x + 12, y + 5);
             pop();
@@ -494,7 +501,7 @@ class Sounds {
         if (debugMode) {
             push();
             fill(255);
-            textFont(debug);
+            textFont(font);
             textSize(16);
             // text(this.target.mass, this.target.position.x + 20, this.target.position.y);
             text(nl, this.target.position.x + 20, this.target.position.y);
@@ -509,7 +516,7 @@ class Sounds {
         let noteV = round(map(this.target.velocity.mag(), 0, orbitSpeed.c, 0.5, 1), 2);
         let nv = constrain(noteV, 0, 1);
         if (debugMode) {
-            textFont(debug);
+            textFont(font);
             fill(255);
             textSize(16);
             text('n. velocity: ' + nv, this.target.position.x + 12, this.target.position.y + 20);
@@ -544,7 +551,13 @@ class Sounds {
                     cc.alpha = 0;
                     noFill();
                 }
-                text(this.notes[this.defineScale][y - 2], 0, (-height / 1.985) + (currentDiameter / 2) + gapSize);
+                let posV;
+                if (desktop) {
+                    posV = 1.985
+                } else {
+                    posV = 2
+                }
+                text(this.notes[this.defineScale][y - 2], 0, (-height / posV) + (currentDiameter / 2) + gapSize);
                 this.notes[this.defineScale].reverse();
                 text(this.notes[this.defineScale][y - 2], 0, (currentDiameter / 2) + gapSize);
                 this.notes[this.defineScale].reverse();
