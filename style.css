@@ -3,35 +3,21 @@ html, body {
   padding: 0;
   background-color: black;
 }
-/* #p5_loading {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  color: white;
-} */
 #p5_loading
 {
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  width:105px;
-  height:105px;
+  width:100px;
+  height:100px;
   background:transparent;
   border:3px solid #2c2c2c;
   border-radius:50%;
   text-align:center;
-  line-height:150px;
-  font-family:sans-serif;
-  font-size:20px;
   color:#ffffff;
-  letter-spacing:4px;
-  text-transform:uppercase;
-  text-shadow:0 0 10px #ffffff;
-  box-shadow:0 0 20px rgba(0,0,0,.5);
+  /* text-shadow:0 0 10px #ffffff; */
+  /* box-shadow:0 0 20px rgba(0,0,0,.5); */
 }
 #p5_loading:before
 {
@@ -69,7 +55,7 @@ span:before
   background:#ffffff;
   top:-6px;
   right:-8px;
-  box-shadow:0 0 20px #ffffff;
+  /* box-shadow:0 0 20px #ffffff; */
 }
 @keyframes animateC
 {
@@ -92,6 +78,20 @@ span:before
   {
     transform:rotate(405deg);
   }
+}
+#circle
+{
+  margin: 0;
+  position: absolute;
+  width: 50%;
+  height:50%;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: white;
+  /* box-shadow:0 0 14px #ffffff; */
 }
 canvas {
   display: block;
