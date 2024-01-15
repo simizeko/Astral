@@ -33,7 +33,7 @@ html, body {
   border-radius:50%;
   animation:animateC 1.5s linear infinite;
 }
-span
+#orbitLoad
 {
   display:block;
   position:absolute;
@@ -45,7 +45,7 @@ span
   transform-origin:left;
   animation:animate 1.5s linear infinite;
 }
-span:before
+#orbitLoad:before
 {
   content:'';
   position:absolute;
@@ -79,7 +79,7 @@ span:before
     transform:rotate(405deg);
   }
 }
-#circle
+#circleStatic
 {
   margin: 0;
   position: absolute;

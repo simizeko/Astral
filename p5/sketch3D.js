@@ -1,5 +1,6 @@
 // let debug = 'sans-serif';
 let font;
+let fontMenu;
 let muteWht;
 let muteBlk;
 let menuWht;
@@ -7,14 +8,18 @@ let fullScrn = false;
 let fullOpen;
 
 function preload() {
-    if (desktop) {
+    if (displayWidth >= 800) {
+        desktop = true;
         font = loadFont('./assets/hindLight.otf');
+    } else {
+        desktop = false;
     }
     muteWht = 'url(./design/mute1.svg)';
     muteBlk = 'url(./design/muteblk1.svg)';
     menuWht = 'url(./design/menu-thin.svg)';
     fullOpen = 'url(./design/fullOpen.svg)';
     fullClose = 'url(./design/fullClose.svg)';
+    fontMenu = "'Hind', 'sans-serif'";
 }
 
 let base;
@@ -158,7 +163,6 @@ function setup() {
         font = "'Hind', 'sans-serif'";
         base = createCanvas(windowWidth, windowHeight);
     }
-    console.log(floor(millis()) + ' milliseconds loading time');
     base.id('myCanvas');
     base.style('position: fixed');
     // base.style('-webkit-transform: translateZ(0)');
@@ -326,10 +330,10 @@ function draw() {
     speedControl();
 
     if (desktop) {
-        swayX = map(mouseX - width / 2, 0, width, 3, - 3);
-        swayY = map(mouseY - height / 2, 0, height, 3, - 3);
-        swayX = lerp(0, swayX, 0.5);
-        swayY = lerp(0, swayY, 0.5);
+        // swayX = map(mouseX - width / 2, 0, width, 3, - 3);
+        // swayY = map(mouseY - height / 2, 0, height, 3, - 3);
+        // swayX = lerp(0, swayX, 0.5);
+        // swayY = lerp(0, swayY, 0.5);
 
         // Lighting settings
         spotLight(cc.R, cc.G, cc.B, 0, 0, 550, 0, 0, -1, PI / 3, 300)
@@ -434,10 +438,6 @@ function draw() {
 
     for (let i = planets.length - 1; i >= 0; i--) {
 
-        // sounds = new Sounds(planets[i]);
-        // sounds.identifyTarget(planets[i]);
-        // let proximity = false;
-
         for (let other of planets) { //this for loop shows the gravity line between planets
             if (planets[i] !== other && planets[i].proximity(other)) {
                 // planets[i].proximity(other);
@@ -448,14 +448,13 @@ function draw() {
 
         // planets[i].applyForce(gravity);
         planets[i].update();
-        planets[i].show();
         planets[i].showGravity();
+        planets[i].show();
         planets[i].edges();
         planets[i].sounds.calculateNote();
         planets[i].sounds.calculateVelocity();
         planets[i].sounds.trigger();
         planets[i].sounds.visualFeedback();
-        // planets[i].sounds.resetVisual()
         // planets[i].sounds.calculateLength();
     }
 
@@ -469,11 +468,11 @@ function draw() {
     sun.BHshow();
     midi.listOuts();
 
-    if (menu.midiMode & midiDevice) {
-        // midi.midiListen();
+    if (menu.midiMode && midiDevice && midiAccess) {
+        midi.midiListen();
     }
-
     sounds.ModeSelect();
+    
     if (debugMode && desktop == false) {
         Debug2D();
     }

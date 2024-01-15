@@ -266,11 +266,6 @@ let bufferSourceStart = Tone.BufferSource.prototype.start;
 let _playingBuffers = [];
 // let MAX_BUFFERS = 10;
 let MAX_POLYPHONY;
-if (desktop) {
-    MAX_POLYPHONY = 10;
-} else {
-    MAX_POLYPHONY = 6;
-}
 
 // Tone.BufferSource.prototype.start = function (time, offset, duration, gain) {
 //     //console.log(" + ", time, offset, duration, gain);
@@ -348,8 +343,13 @@ class Sounds {
             ['C3', 'D3', 'D#3', 'F3', 'G3', 'G#3', 'A#3', 'C4'],
             ['C3', 'C#3', 'D#3', 'F3', 'F#3', 'G#3', 'A#3', 'C4']
         ];
-
         this.defineScale = 3;
+
+        if (desktop) {
+            MAX_POLYPHONY = 10;
+        } else {
+            MAX_POLYPHONY = 6;
+        }
     }
 
     // setup() {
