@@ -33,7 +33,7 @@ class Cameras {
 
 
     init() {
-        setInterval(this.timeIt, timer)
+        setInterval(this.timeIt, this.timer)
         this.easycam.removeMouseListeners();
         this.easycam.setState(this.state1, 0);
         this.easycam.pushResetState();

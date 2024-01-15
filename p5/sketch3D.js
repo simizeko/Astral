@@ -6,6 +6,7 @@ let muteBlk;
 let menuWht;
 let fullScrn = false;
 let fullOpen;
+let desktop
 
 function preload() {
     if (displayWidth >= 800) {
@@ -34,8 +35,9 @@ let mapswayY;
 let swayX;
 let swayY;
 let timer = 5000;
+let idleTimer = 0;
 
-let createPlanet = true;
+let createPlanet = false;
 let showMenu = false;
 let showGravity = false;
 let showInfluence = false;
@@ -43,7 +45,8 @@ let showInfluence = false;
 let sunRadius = 4;
 let sunMass = 120;
 let initialPlanets = 0;
-let planetInfluence = 2;
+let planetInfluence = 1;
+// let planetInfluence = 2;
 let planetGravityStrength = 0.65;
 // let planetGravityStrength = 0.15;
 // let planetGravityStrength = 1;
@@ -73,7 +76,6 @@ let scalar;  // set the radius of camera  movement circle
 let startX = 0;	// set the x-coordinate for the circle center
 let startY = 0;	// set the y-coordinate for the circle center
 
-let desktop = true;
 let debugMode = true;
 let leftSide;
 let topSide;
@@ -207,6 +209,10 @@ function setup() {
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 
+function mouseMoved() {
+    idleTimer = 0;
+}
+
 function speedControl() {
     if (orbitVal === 'I') {
         orbitSpeed = {
@@ -232,8 +238,6 @@ function speedControl() {
     return false;
 }
 
-
-
 function rotateCam() {
     if (rotatation && desktop) {
         let rot = map(planets.length, 0, 20, 0, 0.001);
@@ -252,6 +256,7 @@ function timeIt() {
     }
     resetCounter++;
     cc.counter++;
+    idleTimer++;
 }
 
 function mousePressed() {
@@ -448,7 +453,7 @@ function draw() {
 
         // planets[i].applyForce(gravity);
         planets[i].update();
-        planets[i].showGravity();
+        planets[i].showGravity(i);
         planets[i].show();
         planets[i].edges();
         planets[i].sounds.calculateNote();
@@ -472,11 +477,12 @@ function draw() {
         midi.midiListen();
     }
     sounds.ModeSelect();
-    
+
     if (debugMode && desktop == false) {
         Debug2D();
     }
     // print('Audio Context: ' + Tone.context.state);
+    // print(menu.menuB.style.opacity);
 }
 
 function Debug2D() {

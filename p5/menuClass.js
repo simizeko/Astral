@@ -47,6 +47,7 @@ class Menu {
         this.buttonWidth = '36px';
         this.buttonPadding = '12px';
         this.buttonRadius = '0px';
+        this.buttonOpacity = 1;
 
         this.orbitSpeed = ['I', 'II', 'III'];
         this.mode = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
@@ -277,14 +278,15 @@ class Menu {
             circleButtons[i].style('cursor: pointer');
             circleButtons[i].style('position: fixed');
             circleButtons[i].style('-webkit-transform: translateZ(0)');
+            // circleButtons[i].style('opacity', 1);
         }
 
         // Keep close button relative
         let closeB = selectAll('#closeB');
         for (let i = 0; i < closeB.length; i++) {
-        // print(closeB);
-        closeB[i].style('position: relative');
-        closeB[i].style('background-color', 'black');
+            // print(closeB);
+            closeB[i].style('position: relative');
+            closeB[i].style('background-color', 'black');
         }
 
         // Return selected to (almost) default appearance
@@ -432,6 +434,11 @@ class Menu {
         }
         if (menu.muteAudio) {
             menu.muteB.style('background-color', '#383838');
+        }
+
+        // Fade menu buttons on desktop only
+        if (desktop) {
+            this.ButtonFade([this.menuB, this.muteB, this.fullB]);
         }
     }
 
@@ -742,6 +749,7 @@ class Menu {
         this.menuB.style('background-position: center');
         this.menuB.style('background-repeat: no-repeat');
         this.menuB.style('background-size: 20px');
+        this.menuB.style('opacity', this.buttonOpacity);
         this.menuB.mousePressed(this.MenuAccess)
 
         this.muteB = createButton('').addClass('CB');
@@ -822,6 +830,35 @@ class Menu {
             createPlanet = false;
         }
         openMenu = !openMenu;
+    }
+
+    // ButtonFade(element) {
+    //     let opacity = 1;  // initial opacity
+    //     var timer = setInterval(function () {
+    //         if (opacity <= 0.1){
+    //             clearInterval(timer);
+    //             element.style.display = 'none';
+    //         }
+    //         element.style.opacity = opacity;
+    //         element.style.filter = 'alpha(opacity=' + opacity * 100 + ")";
+    //         opacity -= opacity * 0.1;
+    //     }, 50);
+    // }
+
+    ButtonFade(buttons) {
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].style('opacity', this.buttonOpacity);
+            if (this.buttonOpacity < 0.1) {
+                buttons[i].style('display: none');
+            } else {
+                buttons[i].style('display: inline-block');
+            }
+        }
+        if (idleTimer > 5) {
+            this.buttonOpacity -= this.buttonOpacity * 0.03;
+        } else {
+            this.buttonOpacity = 1;
+        }
     }
 }
 

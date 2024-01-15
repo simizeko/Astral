@@ -42,7 +42,7 @@ class Colours {
         this.red = {
             bg: color(0, 0, 0),
             sun: color(0, 0, 0),
-            stars: color(255, 200, 0),
+            stars: color(255, 150, 0),
             highlight: 255,
             R: 240,
             G: 85,

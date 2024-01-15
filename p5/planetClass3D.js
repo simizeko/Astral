@@ -17,8 +17,6 @@ class Planets {
         this.radius = calculateMass(this.mass);
         // this.influence = this.mass * planetInfluence;
         this.influence = this.mass;
-        this.counter = 0;
-        this.sounds = null;
     }
 
 
@@ -35,13 +33,11 @@ class Planets {
         this.velocity.limit(orbitSpeed.c);
         this.accel.set(0, 0);
         // let temp = this.velocity.mag();
-        
+
         if (this.influence < 2) {
             this.influence = 2
         }
     }
-
-
 
     show() {
         if (desktop) {
@@ -58,24 +54,29 @@ class Planets {
             pop();
         }
         if (debugMode) {
+            push();
             textSize(16);
             text('mass: ' + round(this.mass, 2), this.position.x + 12, this.position.y + 35);
+            pop();
         }
+
     }
 
-    showGravity() {
+    showGravity(depth) {
         if (showGravity) {
             push();
             stroke(cc.highlight, 100);
             line(this.position.x, this.position.y, center.x, center.y);
             pop();
-
         }
 
         if (showInfluence) {
             push();
             noStroke();
-            fill(255, 40);
+            fill(255, 35);
+            if (desktop) {
+                    translate(0, 0, -depth / 100);
+            }
             ellipse(this.position.x, this.position.y, this.radius * this.influence * 2);
             pop();
         }
@@ -84,27 +85,14 @@ class Planets {
     intersects(other) {
         let d = dist(this.position.x, this.position.y, other.position.x, other.position.y);
         if (d < this.radius / 2 + other.radius / 2) {
-            // this.radius += other.radius;
             if (mergePlanets) {
                 let sum = PI * this.radius * this.radius + PI * other.radius * other.radius; //sum of areas
-                // let newRadius = sqrt(sum / PI);
-                // lerp(this.radius, newRadius, 0.05);
+                let newRadius = sqrt(sum / PI);
                 other.radius = sqrt(sum / PI); // Makes the other planet when bigger
-                // other.radius = lerp(other.radius, sqrt(sum / PI), 1);
+                // other.radius = lerp(other.radius, newRadius, this.counterP);
                 other.mass += this.mass * 1;
-                // other.influence = (other.mass + this.mass * planetInfluence);
-                other.influence = (other.mass + this.mass);
-                // other.mass = lerp(other.mass, other.mass += this.mass, 0.0001);
-                // other.accel += this.accel;
+                other.influence = ((other.mass + this.mass) * planetInfluence);
             }
-            // else if (this.position.x + this.radius / 2 >= other.position.x + other.radius / 2) {
-            //     // let p = dist(this.position.x, this.position.y, other.position.x, other.position.y);
-            //     // if (d < this.radius) {
-            //         this.position.x = this.position.x - other.radius
-            //     this.velocity.x *= -0.02;
-            //     // this.velocity.y *= -0.5;
-            //     // }
-            // }
 
             // Keep the sun from gaining mass and growing in size
             sun.mass = sunMass;
