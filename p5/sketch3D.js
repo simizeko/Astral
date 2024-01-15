@@ -7,12 +7,14 @@ let fullScrn = false;
 let fullOpen;
 
 function preload() {
-
+    if (desktop) {
+        font = loadFont('./assets/hindLight.otf');
+    }
     muteWht = 'url(./design/mute1.svg)';
     muteBlk = 'url(./design/muteblk1.svg)';
     menuWht = 'url(./design/menu-thin.svg)';
     fullOpen = 'url(./design/fullOpen.svg)';
-    fullClose = 'url(./design/fullClose.svg)'
+    fullClose = 'url(./design/fullClose.svg)';
 }
 
 let base;
@@ -66,7 +68,7 @@ let scalar;  // set the radius of camera  movement circle
 let startX = 0;	// set the x-coordinate for the circle center
 let startY = 0;	// set the y-coordinate for the circle center
 
-let desktop = false;
+let desktop = true;
 let debugMode = true;
 let leftSide;
 let topSide;
@@ -141,14 +143,13 @@ function windowResized() {
 /////////////////////////////////////////////////////////
 
 function setup() {
-
     // setAttributes('antialias', true);
     // setAttributes('version', 2);
     setAttributes({ version: 2 });
     // setAttributes({ alpha: true });
 
     if (desktop) {
-        font = loadFont('./assets/hindLight.otf')
+        // font = loadFont('./assets/hindLight.otf')
         base = createCanvas(windowWidth, windowHeight, WEBGL);
         cam = new Cameras();
         cam.init();
@@ -157,9 +158,10 @@ function setup() {
         font = "'Hind', 'sans-serif'";
         base = createCanvas(windowWidth, windowHeight);
     }
+    console.log(floor(millis()) + ' milliseconds loading time');
     base.id('myCanvas');
     base.style('position: fixed');
-    base.style('-webkit-transform: translateZ(0)');
+    // base.style('-webkit-transform: translateZ(0)');
     // pixelDensity(1);
     FindCenter();
 

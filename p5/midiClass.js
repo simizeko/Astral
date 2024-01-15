@@ -34,8 +34,8 @@ class MidiOut {
                     console.log('No midi device detected');
                     midiDevice = false;
                 } else {
-                    WebMidi.inputs.forEach(input => console.log(input.manufacturer, input.name));
-                    WebMidi.outputs.forEach(output => console.log(output.manufacturer, output.name));
+                    WebMidi.inputs.forEach(input => console.log('Midi Input:', input.manufacturer, input.name));
+                    WebMidi.outputs.forEach(output => console.log('Midi Output:',output.manufacturer, output.name));
                 }
             }
         }
