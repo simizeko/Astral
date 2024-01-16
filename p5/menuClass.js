@@ -36,6 +36,7 @@ class Menu {
         this.muteB;
         this.menuB;
         this.fullB;
+        this.warning;
 
         this.divWidth = '50%';
         this.divPos = 'left';
@@ -859,6 +860,38 @@ class Menu {
         } else {
             this.buttonOpacity = 1;
         }
+    }
+
+    fpsWarning() {
+        let padding = 14;
+        this.warning = createDiv('Low framerate detected');
+        this.warning.position(0, height / 2);
+        this.warning.style('padding', str(padding) + 'px');
+        this.warning.style('background-color', 'rgba(31,31,31,0.5');
+        this.warning.style('font-family', fontMenu);
+        this.warning.style('color', 'white');
+        this.warning.style('border-right', '2px solid orange');
+        this.warning.mouseOver(pOff);
+        this.warning.mouseOut(pOn);
+    
+        function pOff() {
+            createPlanet = false;
+        }
+        function pOn() {
+            createPlanet = true;
+        }
+    
+        let b = createButton('switch to 2D');
+        b.parent(this.warning);
+        b.style('-webkit-appearance', 'none');
+        b.style('margin-top', '4px');
+        b.style('padding', '6px');
+        b.style('width', '100%');
+        b.style('display', 'block');
+        b.style('background-color', '#1f1f1f');
+        b.style('border', '1px solid white');
+        b.style('color', 'white');
+        b.mousePressed(SwitchMode);
     }
 }
 

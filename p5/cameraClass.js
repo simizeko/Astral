@@ -138,7 +138,7 @@ class Cameras {
         push();
         noFill();
         strokeWeight(1);
-        stroke(255, 0, 0);
+        stroke(0, 255, 0);
         rect(-width / 2, -height / 2, width, height)
         pop();
     }

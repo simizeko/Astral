@@ -6,15 +6,19 @@ let muteBlk;
 let menuWht;
 let fullScrn = false;
 let fullOpen;
-let desktop
+let desktop;
+let firstLoad = true;
+let fpsLow = false;
+let frames = [];
 
 function preload() {
-    if (displayWidth >= 800) {
-        desktop = true;
-        font = loadFont('./assets/hindLight.otf');
-    } else {
-        desktop = false;
-    }
+    // if (displayWidth >= 800) {
+    //     desktop = true;
+    //     font = loadFont('./assets/hindLight.otf');
+    // } else {
+    //     desktop = false;
+    // }
+    font = loadFont('./assets/hindLight.otf');
     muteWht = 'url(./design/mute1.svg)';
     muteBlk = 'url(./design/muteblk1.svg)';
     menuWht = 'url(./design/menu-thin.svg)';
@@ -34,6 +38,9 @@ let mapSwayX;
 let mapswayY;
 let swayX;
 let swayY;
+let dustInterval;
+let colourInterval;
+let timerInterval;
 let timer = 5000;
 let idleTimer = 0;
 
@@ -146,32 +153,51 @@ function windowResized() {
     }
 }
 
-/////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////
+function SwitchMode() {
+    clearInterval(timerInterval);
+    clearInterval(dustInterval);
+    clearInterval(colourInterval);
+    firstLoad = false;
+    remove();
+    desktop = !desktop;
+    new p5();
+}
 
-function setup() {
-    // setAttributes('antialias', true);
-    // setAttributes('version', 2);
-    setAttributes({ version: 2 });
-    // setAttributes({ alpha: true });
-
+function CanvasSelect() {
     if (desktop) {
         // font = loadFont('./assets/hindLight.otf')
+        // setAttributes('antialias', true);
+        // setAttributes({ alpha: true });
+        // setAttributes({ version: 2 });
         base = createCanvas(windowWidth, windowHeight, WEBGL);
         cam = new Cameras();
         cam.init();
         perspective(PI / 3, width / height);
     } else {
         font = "'Hind', 'sans-serif'";
-        base = createCanvas(windowWidth, windowHeight);
+        base = createCanvas(windowWidth, windowHeight, P2D);
     }
     base.id('myCanvas');
     base.style('position: fixed');
-    // base.style('-webkit-transform: translateZ(0)');
-    // pixelDensity(1);
+    base.style('-webkit-transform: translateZ(0)');
+    if (displayWidth < 1024) {
+        pixelDensity(1);
+    }
+}
+
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+
+function setup() {
+    if (firstLoad) {
+        if (displayWidth >= 1024) {
+            desktop = true;
+        } else {
+            desktop = false;
+        }
+    }
+    CanvasSelect();
     FindCenter();
-
-
     // const canvas = document.getElementById("myCanvas");
     // let gl = canvas.getContext("webgl");
     // let tt = gl.getParameter(gl.VERSION);
@@ -201,9 +227,9 @@ function setup() {
     textSize(18);
     textFont(font);
 
-    setInterval(timeIt, 1000);
-    setInterval(addDust, 5000);
-    setInterval(cc.colourChange(), 5000);
+    timerInterval = setInterval(timeIt, 1000);
+    dustInterval = setInterval(addDust, 5000);
+    colourInterval = setInterval(cc.colourChange(), 5000);
 }
 
 /////////////////////////////////////////////////////////
@@ -257,6 +283,32 @@ function timeIt() {
     resetCounter++;
     cc.counter++;
     idleTimer++;
+
+    // Check the last five frames and show warning if low
+    let warningOn = 24;
+    let warningOff = 30;
+    let f = floor(frameRate());
+    append(frames, f);
+    if (frames.length > 5) {
+        frames.splice(0, 1);
+    }
+    let average = 200;
+    if (frames.length > 4) {
+        let sum = 0;
+        for (let i = 1; i < frames.length; i++) {
+            sum += frames[i];
+        }
+        average = sum / frames.length;
+    }
+    if (average <= warningOn && fpsLow == false) {
+        menu.fpsWarning();
+        fpsLow = true;
+    }
+    // Remove warning if average framerate increases
+    if (average >= warningOff && fpsLow == true) {
+        menu.warning.remove();
+        fpsLow = false;
+    }
 }
 
 function mousePressed() {
@@ -321,6 +373,7 @@ function mouseReleased() {
 /////////////////////////////////////////////////////////
 
 function draw() {
+    // print(center.x, center.y);
     if (openMenu) {
         menu.Active();
     }
@@ -483,6 +536,8 @@ function draw() {
     }
     // print('Audio Context: ' + Tone.context.state);
     // print(menu.menuB.style.opacity);
+    // print('desktop is ' + desktop, webglVersion);
+
 }
 
 function Debug2D() {
