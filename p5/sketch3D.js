@@ -154,6 +154,7 @@ function windowResized() {
 }
 
 function SwitchMode() {
+    planets.splice(0, planets.length);
     clearInterval(timerInterval);
     clearInterval(dustInterval);
     clearInterval(colourInterval);
