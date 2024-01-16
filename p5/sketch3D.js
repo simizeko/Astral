@@ -6,7 +6,7 @@ let muteBlk;
 let menuWht;
 let fullScrn = false;
 let fullOpen;
-let desktop = true;
+let desktop;
 let firstLoad = true;
 let fpsLow = false;
 let frames = [];
@@ -180,7 +180,7 @@ function CanvasSelect() {
     base.id('myCanvas');
     base.style('position: fixed');
     base.style('-webkit-transform: translateZ(0)');
-    if (displayWidth < 1024) {
+    if (displayWidth < 800) {
         pixelDensity(1);
     }
 }
@@ -189,13 +189,13 @@ function CanvasSelect() {
 /////////////////////////////////////////////////////////
 
 function setup() {
-    // if (firstLoad) {
-    //     if (displayWidth >= 1024) {
-    //         desktop = true;
-    //     } else {
-    //         desktop = false;
-    //     }
-    // }
+    if (firstLoad) {
+        if (displayWidth >= 1024) {
+            desktop = true;
+        } else {
+            desktop = false;
+        }
+    }
     CanvasSelect();
     FindCenter();
     // const canvas = document.getElementById("myCanvas");
@@ -285,29 +285,31 @@ function timeIt() {
     idleTimer++;
 
     // Check the last five frames and show warning if low
-    let warningOn = 24;
-    let warningOff = 30;
-    let f = floor(frameRate());
-    append(frames, f);
-    if (frames.length > 5) {
-        frames.splice(0, 1);
-    }
-    let average = 200;
-    if (frames.length > 4) {
-        let sum = 0;
-        for (let i = 1; i < frames.length; i++) {
-            sum += frames[i];
+    if (desktop) {
+        let warningOn = 24;
+        let warningOff = 30;
+        let f = floor(frameRate());
+        append(frames, f);
+        if (frames.length > 5) {
+            frames.splice(0, 1);
         }
-        average = sum / frames.length;
-    }
-    if (average <= warningOn && fpsLow == false) {
-        menu.fpsWarning();
-        fpsLow = true;
-    }
-    // Remove warning if average framerate increases
-    if (average >= warningOff && fpsLow == true) {
-        menu.warning.remove();
-        fpsLow = false;
+        let average = 200;
+        if (frames.length > 4) {
+            let sum = 0;
+            for (let i = 1; i < frames.length; i++) {
+                sum += frames[i];
+            }
+            average = sum / frames.length;
+        }
+        if (average <= warningOn && fpsLow == false) {
+            menu.fpsWarning();
+            fpsLow = true;
+        }
+        // Remove warning if average framerate increases
+        if (average >= warningOff && fpsLow == true) {
+            menu.warning.remove();
+            fpsLow = false;
+        }
     }
 }
 
