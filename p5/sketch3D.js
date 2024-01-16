@@ -6,7 +6,7 @@ let muteBlk;
 let menuWht;
 let fullScrn = false;
 let fullOpen;
-let desktop;
+let desktop = true;
 let firstLoad = true;
 let fpsLow = false;
 let frames = [];
@@ -168,7 +168,7 @@ function CanvasSelect() {
         // font = loadFont('./assets/hindLight.otf')
         // setAttributes('antialias', true);
         // setAttributes({ alpha: true });
-        // setAttributes({ version: 2 });
+        setAttributes({ version: 2 });
         base = createCanvas(windowWidth, windowHeight, WEBGL);
         cam = new Cameras();
         cam.init();
@@ -189,13 +189,13 @@ function CanvasSelect() {
 /////////////////////////////////////////////////////////
 
 function setup() {
-    if (firstLoad) {
-        if (displayWidth >= 1024) {
-            desktop = true;
-        } else {
-            desktop = false;
-        }
-    }
+    // if (firstLoad) {
+    //     if (displayWidth >= 1024) {
+    //         desktop = true;
+    //     } else {
+    //         desktop = false;
+    //     }
+    // }
     CanvasSelect();
     FindCenter();
     // const canvas = document.getElementById("myCanvas");
