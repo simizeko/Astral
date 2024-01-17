@@ -53,7 +53,7 @@ class Menu {
 
         this.orbitSpeed = ['I', 'II', 'III'];
         this.mode = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
-        this.modeLabel = ['Ionian', 'Dorian', 'Phrygian', 'Lydian', 'Mixolydian', 'Aeolian', 'Locrian'];
+        this.modeLabel = ['Ionian (Major)', 'Dorian', 'Phrygian', 'Lydian', 'Mixolydian', 'Aeolian (Natural Minor)', 'Locrian'];
         this.modeTitle;
         this.grid = ['Fade', 'On', 'Off'];
         this.display = ['Col.', 'Grav.', 'AOE', 'FPS'];
@@ -484,6 +484,7 @@ class Menu {
         this.modeButtons.style('margin-right', this.padding);
         this.modeButtons.style('margin-bottom', this.padding);
         this.modeButtons.selected(modeVal);
+        this.modeButtons.changed(sounds.Populate);
     }
 
     Grid(title, colour, options) {

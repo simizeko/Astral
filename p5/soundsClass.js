@@ -353,6 +353,23 @@ class Sounds {
         this.startCounter = false;
         this.trigCounter = 0;
         this.trigSize = 0;
+        this.notesTest = [];
+        this.tonic = 0;
+
+
+        this.chromatic = ['C3', 'C#3', 'D3', 'D#3', 'E3', 'F3', 'F#3', 'G3', 'G#3', 'A3', 'A#3', 'B3', 'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4'];
+
+        this.scales = [
+            [0, 2, 4, 5, 7, 9, 11, 12],
+            [0, 2, 3, 5, 7, 9, 10, 12],
+            [0, 1, 3, 5, 7, 8, 10, 12],
+            [0, 2, 4, 6, 7, 9, 11, 12],
+            [0, 2, 4, 5, 7, 9, 10, 12],
+            [0, 2, 3, 5, 7, 8, 10, 12],
+            [0, 1, 3, 5, 6, 8, 10, 12]
+        ];
+
+
 
         this.notes = [
             ['C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4'],
@@ -363,7 +380,12 @@ class Sounds {
             ['C3', 'D3', 'D#3', 'F3', 'G3', 'G#3', 'A#3', 'C4'],
             ['C3', 'C#3', 'D#3', 'F3', 'F#3', 'G#3', 'A#3', 'C4']
         ];
+
         this.defineScale = 3;
+        let iterator = this.scales[this.defineScale];
+        for (let value of iterator) {
+            this.notesTest.push(this.chromatic[value + this.tonic]);
+        }
 
         if (desktop) {
             MAX_POLYPHONY = 10;
@@ -372,35 +394,20 @@ class Sounds {
         }
     }
 
-    // setup() {
-    // //     this.angleY = 0;
-    // //     this.rot = 0;
-    // }
-
-    startAudio() {
-        // osc.start();
-        // lfo.start();
+    Populate() {
+        this.notesTest.splice(0, this.notesTest.length);
+        let iterator = this.scales[sounds.defineScale];
+        for (let value of iterator) {
+            this.notesTest.push(this.chromatic[value + this.tonic]);
+        }
+        // print(this.notesTest);
+        sounds.notesTest = this.notesTest;
     }
-
-    // defineScale() {
-    //     //  if button pressed return value for scale array
-    //     return 0
-
-    //     //  if button pressed return value for scale array
-    //     return 1
-
-    //     //  if button pressed return value for scale array
-    //     return 2
-
-    //     //  if button pressed return value for scale array
-    //     return 3
-
-    // }
-
 
     ModeSelect() {
         let modeS = menu.mode.indexOf(modeVal);
         this.defineScale = modeS;
+        // this.Populate();
     }
 
     trigger() {
@@ -425,7 +432,9 @@ class Sounds {
                     // instrument.triggerAttackRelease(notes, duration, time, velocity)
                     // instrument[this.calculateInstrument(this.target.radius)].triggerAttackRelease(this.scale[this.defineScale()], length[this.calculateInstrument(this.target.radius)], Tone.now(), this.calculateVelocity());
 
-                    instrument[this.calculateInstrument(this.target.radius)].triggerAttackRelease(this.notes[this.defineScale][this.calculateNote()], length[this.calculateInstrument(this.target.radius)], Tone.now(), this.calculateVelocity());
+                    instrument[this.calculateInstrument(this.target.radius)].triggerAttackRelease(sounds.notesTest[this.calculateNote()], length[this.calculateInstrument(this.target.radius)], Tone.now(), this.calculateVelocity());
+                    print(sounds.notesTest[this.calculateNote()]);
+                    // print(sounds.defineScale);
 
                     // basfin.triggerAttackRelease(this.notes[this.calculateNote()], length[this.calculateInstrument(this.target.radius)]);
                     // twinkle.triggerAttackRelease(this.notes[this.calculateNote()], 4, Tone.now(),this.calculateVelocity());
@@ -577,10 +586,10 @@ class Sounds {
                 } else {
                     posV = 2
                 }
-                text(this.notes[this.defineScale][y - 2], 0, (-height / posV) + (currentDiameter / 2) + gapSize);
-                this.notes[this.defineScale].reverse();
-                text(this.notes[this.defineScale][y - 2], 0, (currentDiameter / 2) + gapSize);
-                this.notes[this.defineScale].reverse();
+                text(this.notesTest[y - 2], 0, (-height / posV) + (currentDiameter / 2) + gapSize);
+                this.notesTest.reverse();
+                text(this.notesTest[y - 2], 0, (currentDiameter / 2) + gapSize);
+                this.notesTest.reverse();
                 pop();
 
                 push();

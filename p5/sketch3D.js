@@ -539,6 +539,7 @@ function draw() {
     // print('Audio Context: ' + Tone.context.state);
     // print(menu.menuB.style.opacity);
     // print('desktop is ' + desktop, webglVersion);
+    // print(sounds.defineScale, sounds.notesTest[3]);
 
 }
 
