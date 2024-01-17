@@ -14,6 +14,7 @@ let channelVal;
 let lengthVal;
 let midiOutputVal;
 let midiInputVal;
+let offsetVal = 0;
 let openMenu;
 
 //////////////////////
@@ -61,7 +62,7 @@ class Menu {
         this.midiMode = false;
         this.channels = ['1-8', '1', '2', '3'];
         this.lengthTitle;
-        this.seconds;
+        this.offsetTitle;
         this.midiOutputs = WebMidi.outputs;
         this.midiInputs = WebMidi.inputs;
         this.noDevices = 'No midi devices detected'
@@ -86,6 +87,7 @@ class Menu {
         this.midiModeButton;
         this.channelButtons;
         this.lengthSlider
+        this.offsetSlider;
         this.outputDropdown;
         this.inputDropdown;
         this.backButton;
@@ -323,10 +325,14 @@ class Menu {
             midiInputVal = this.inputDropdown.value();
             channelVal = this.channelButtons.value();
             lengthVal = this.lengthSlider.value();
+            offsetVal = this.offsetSlider.value();
 
             // title change for midi length
             let seconds = map(lengthVal, 0, 8000, 0, 8);
             this.lengthTitle.html('Note Length: ' + seconds + 's');
+
+            // // title change for offset value
+            this.offsetTitle.html('Transpose Octave: ' + offsetVal);
         }
 
 
@@ -358,9 +364,9 @@ class Menu {
         }
 
         if (idleVal == 'On') {
-            rotatation = true;
+            rotation = true;
         } else {
-            rotatation = false;
+            rotation = false;
         }
 
         if (mergeVal == 'On') {
@@ -591,6 +597,7 @@ class Menu {
         menu.MidiMode('Midi Mode', 'red');
         menu.Channels('Channels', 'green');
         menu.MidiLength('Note Length');
+        menu.MidiOffset('Transpose Octave')
         menu.MidiOutput('Output Device', 'hotpink');
         menu.MidiInput('Input Device', 'yellow');
 
@@ -666,6 +673,27 @@ class Menu {
         this.lengthSlider.style('margin-left', this.padding);
         this.lengthSlider.style('margin-right', this.padding);
         this.lengthSlider.style('margin-bottom', this.padding);
+    }
+
+    MidiOffset(title, colour) {
+        this.Item(title, colour, true);
+        // Custom title
+        this.offsetTitle = createElement('h2', 'Transpose Octave: ' + offsetVal);
+        this.offsetTitle.parent(this.div);
+        this.offsetTitle.style('padding', this.padding);
+        this.offsetTitle.style('padding-top', '2.5%');
+        this.offsetTitle.style('margin', '0px');
+        this.offsetTitle.style('font-size', this.h2Size);
+        this.offsetTitle.style('font-weight: 100');
+
+        this.offsetSlider = createSlider(-4,4, offsetVal).addClass('defaultStyle');
+        this.offsetSlider.parent(this.div);
+        this.offsetSlider.style('margin-top', '0px');
+        this.offsetSlider.style('margin', this.padding);
+        this.offsetSlider.changed(() => {
+            WebMidi.octaveOffset = offsetVal;
+          });
+
     }
 
     MidiOutput(title, colour) {
@@ -873,14 +901,14 @@ class Menu {
         this.warning.style('border-right', '2px solid orange');
         this.warning.mouseOver(pOff);
         this.warning.mouseOut(pOn);
-    
+
         function pOff() {
             createPlanet = false;
         }
         function pOn() {
             createPlanet = true;
         }
-    
+
         let b = createButton('switch to 2D');
         b.parent(this.warning);
         b.style('-webkit-appearance', 'none');

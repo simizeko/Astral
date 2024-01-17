@@ -64,7 +64,7 @@ let orbitSpeed = {
     // c: 2.65
 }
 let slow = false, medium = true, fast = false;
-let rotatation = true;
+let rotation = true;
 
 let sounds;
 let midi;
@@ -266,7 +266,7 @@ function speedControl() {
 }
 
 function rotateCam() {
-    if (rotatation && desktop) {
+    if (rotation && desktop) {
         let rot = map(planets.length, 0, 20, 0, 0.001);
         let rSpeed = constrain(rot, 0, 0.001);
 
@@ -376,7 +376,7 @@ function mouseReleased() {
 /////////////////////////////////////////////////////////
 
 function draw() {
-    // print(center.x, center.y);
+    print(WebMidi.octaveOffset);
     if (openMenu) {
         menu.Active();
     }

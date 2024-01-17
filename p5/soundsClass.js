@@ -60,21 +60,21 @@ const blurryskies = new Tone.Sampler({
 
 const offworld = new Tone.Sampler({
     urls: {
-        "C4": "./audio/offworldswellC3.wav",
-        "E4": "./audio/offworldswellE3.wav",
-        "G4": "./audio/offworldswellG3.wav"
+        "C4": "./audio/offworldswellC3.mp3",
+        "E4": "./audio/offworldswellE3.mp3",
+        "G4": "./audio/offworldswellG3.mp3"
     },
     attack: 0,
     release: 3,
-    volume: -4
+    volume: 0
     // }).chain(chorus, master);
 }).chain(master);
 
 const spazio = new Tone.Sampler({
     urls: {
-        "C3": "./audio/spaziocreamC3.wav",
-        "E3": "./audio/spaziocreamE3.wav",
-        "G3": "./audio/spaziocreamG3.wav"
+        "C3": "./audio/spaziocreamC3.mp3",
+        "E3": "./audio/spaziocreamE3.mp3",
+        "G3": "./audio/spaziocreamG3.mp3"
     },
     attack: 0,
     release: 3,
@@ -100,8 +100,8 @@ const basfin = new Tone.Sampler({
         "G3": "./audio/basfin2G3.mp3"
     },
     attack: 1,
-    release: 0.1,
-    volume: -3
+    release: 2,
+    volume: 5
     // baseUrl: "./audio",
     // }).chain(feedbackDelay, master);
 }).chain(master);
@@ -114,20 +114,20 @@ const twinkle = new Tone.Sampler({
     },
     attack: 0,
     release: 5,
-    volume: 5
+    volume: 3
     // baseUrl: "./audio",
     // }).chain(autoWah, reverb, master);
 }).chain(master);
 
 const outspace = new Tone.Sampler({
     urls: {
-        "C3": "./audio/outspaceC1.mp3",
-        "E3": "./audio/outspaceE1.mp3",
-        "G3": "./audio/outspaceG1.mp3"
+        "C2": "./audio/outspaceC1.mp3",
+        "E2": "./audio/outspaceE1.mp3",
+        "G2": "./audio/outspaceG1.mp3"
     },
     attack: 2,
     release: 1,
-    volume: 0
+    volume: 10
     // baseUrl: "./audio",
     // }).chain(widener, tremolo, master);
 }).chain(master);
@@ -161,25 +161,25 @@ const clockwork = new Tone.Sampler({
 
 const easydoesit = new Tone.Sampler({
     urls: {
-        "C4": "./audio/easydoesC3.mp3",
-        "E4": "./audio/easydoesE3.mp3",
-        "G4": "./audio/easydoesG3.mp3"
+        "C5": "./audio/easydoesC3.mp3",
+        "E5": "./audio/easydoesE3.mp3",
+        "G5": "./audio/easydoesG3.mp3"
     },
     attack: 0,
     release: 3,
-    volume: 0
+    volume: 8
     // velocity: 1
 }).chain(master);
 
 const element = new Tone.Sampler({
     urls: {
-        "C3": "./audio/elementC2.mp3",
-        "E3": "./audio/elementE2.mp3",
-        "G3": "./audio/elementG2.mp3"
+        "C4": "./audio/elementC2.mp3",
+        "E4": "./audio/elementE2.mp3",
+        "G4": "./audio/elementG2.mp3"
     },
     attack: 12,
     release: 8,
-    volume: 6
+    volume: 8
     // velocity: 1
 }).chain(master);
 //.chain(feedbackDelay, autoWah, Tone.Destination);
@@ -232,7 +232,27 @@ const skotos = new Tone.Sampler({
     // }).chain(chorus, monoWide, master);
 }).chain(master);
 
+const pharoh = new Tone.Sampler({
+    urls: {
+        "C4": "./audio/pharohC4.mp3",
+        "E4": "./audio/pharohE4.mp3",
+        "G4": "./audio/pharohG4.mp3"
+    },
+    attack: 1,
+    release: 3,
+    volume: -1
+}).chain(master);
 
+const filla = new Tone.Sampler({
+    urls: {
+        "C4": "./audio/fillaC4.mp3",
+        "E4": "./audio/fillaE4.mp3",
+        "G4": "./audio/fillaG4.mp3"
+    },
+    attack: 0,
+    release: 3,
+    volume: 0
+}).chain(master);
 
 const pkit = new Tone.Sampler({
     urls: {
@@ -399,8 +419,8 @@ class Sounds {
                 Tone.loaded().then(() => {
                     // const instrument = [bowgart, skotos, absynth, element, centralPros];
                     // const instrument = [bowgart, pkit, absynth, element, centralPros];
-                    const instrument = [bowgart, offworld, absynth, element, centralPros, outspace, skotos, twinkle];
-                    const length = [2, 2, 2, 2, 4, 2, 2, 2];
+                    const instrument = [element, pharoh, spazio, filla, centralPros, outspace, skotos, twinkle];
+                    const length = [5, 3, 2, 5, 4, 2, 2, 2];
 
                     // instrument.triggerAttackRelease(notes, duration, time, velocity)
                     // instrument[this.calculateInstrument(this.target.radius)].triggerAttackRelease(this.scale[this.defineScale()], length[this.calculateInstrument(this.target.radius)], Tone.now(), this.calculateVelocity());

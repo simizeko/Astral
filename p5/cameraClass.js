@@ -42,20 +42,22 @@ class Cameras {
 
 
     update() {
-        let d = (height / 2) / tan(PI / 6);
+        if (rotation) {
+            let d = (height / 2) / tan(PI / 6);
 
-        this.easycam.rotateY(this.angleY);
+            this.easycam.rotateY(this.angleY);
 
-        this.easycam.zoom(this.zSpeed);
-        if (this.counter === 10 && rotate) {
-            this.zSpeed = -0.07;
-        }
+            this.easycam.zoom(this.zSpeed);
+            if (this.counter === 10 && rotate) {
+                this.zSpeed = -0.07;
+            }
 
-        if (this.easycam.getDistance() <= d / 1.5) {
-            this.zSpeed *= -1;
-        }
-        if (this.easycam.getDistance() > d) {
-            this.zSpeed *= -1;
+            if (this.easycam.getDistance() <= d / 1.5) {
+                this.zSpeed *= -1;
+            }
+            if (this.easycam.getDistance() > d) {
+                this.zSpeed *= -1;
+            }
         }
     }
 
@@ -131,7 +133,7 @@ class Cameras {
         // text(nfs(state.center, 1, 2), x + 125, y + 25 + 20);
         // text(nfs(state.rotation, 1, 3), x + 125, y + 25 + 40);
         // text(nfs(frameRate(), 1, 2), x + 125, y + 25 + 60);
-        
+
         this.easycam.endHUD();
 
         // frame boundary

@@ -38,6 +38,7 @@ class MidiOut {
                     WebMidi.outputs.forEach(output => console.log('Midi Output:',output.manufacturer, output.name));
                 }
             }
+            WebMidi.octaveOffset = offsetVal;
         }
     }
 
@@ -96,13 +97,5 @@ class MidiOut {
         })
         // print(midi.showInput);
         // print(menu.inputDropdown.selected())
-    }
-
-    midiCreate(size) {
-        let newPlanet = new Planets(random(-width / 2 + 100, - sun.radius), 0, size, center);
-        newPlanet.attachSounds(new Sounds(newPlanet));
-        planets.push(newPlanet);
-        this.midiCounter = 0;
-
     }
 }
