@@ -165,7 +165,7 @@ class Menu {
         this.h1.style('font-weight: 100');
 
         // close button
-        this.closeButton = createButton('X').addClass('CB').id('closeB');
+        this.closeButton = createButton('X').id('closeB').addClass('CB');
         this.closeButton.parent(this.topDiv);
         this.closeButton.style('float: right');
         this.closeButton.style('margin', this.paddingHalf);
@@ -276,7 +276,7 @@ class Menu {
             circleButtons[i].style('border-radius', '50%');
             // circleButtons[i].style('background: center');
             circleButtons[i].style('background-color', cc.bg);
-            circleButtons[i].style('border: 1px solid grey');
+            circleButtons[i].style('border: 1px solid white');
             circleButtons[i].style('color: white');
             circleButtons[i].style('cursor: pointer');
             circleButtons[i].style('position: fixed');
@@ -284,11 +284,10 @@ class Menu {
             // circleButtons[i].style('opacity', 1);
         }
 
-        // Keep close button relative
+        // Keep close button relative and black background
         let closeB = selectAll('#closeB');
         for (let i = 0; i < closeB.length; i++) {
-            // print(closeB);
-            closeB[i].style('position: relative');
+            closeB[i].style('position', 'relative');
             closeB[i].style('background-color', 'black');
         }
 
@@ -435,7 +434,7 @@ class Menu {
         } else this.fpsCounter.html('');
 
         // Match circle button background to current background
-        let circleButtons = selectAll('.CB');
+        let circleButtons = selectAll('.CBdynamic');
         for (let i = 0; i < circleButtons.length; i++) {
             circleButtons[i].style('background-color', cc.bg);
         }
@@ -770,7 +769,7 @@ class Menu {
     }
 
     MenuButtons() {
-        this.menuB = createButton('').addClass('CB');
+        this.menuB = createButton('').addClass('CB').addClass('CBdynamic');
         this.menuB.size(this.buttonSize, this.buttonSize);
         this.menuB.position(20, windowHeight - this.buttonSize - 20);
         this.menuB.style('border-radius', '50%');
@@ -781,7 +780,7 @@ class Menu {
         this.menuB.style('opacity', this.buttonOpacity);
         this.menuB.mousePressed(this.MenuAccess)
 
-        this.muteB = createButton('').addClass('CB');
+        this.muteB = createButton('').addClass('CB').addClass('CBdynamic');
         this.muteB.size(this.buttonSize, this.buttonSize);
         this.muteB.position(this.buttonSize + 20 + 15, windowHeight - this.buttonSize - 20);
         this.muteB.style('border-radius', '50%');
@@ -797,7 +796,7 @@ class Menu {
             menu.muteAudio = !menu.muteAudio;
         }
 
-        this.fullB = createButton('').addClass('CB');
+        this.fullB = createButton('').addClass('CB').addClass('CBdynamic');
         this.fullB.size(this.buttonSize, this.buttonSize);
         this.fullB.position(windowWidth - this.buttonSize - 20, windowHeight - this.buttonSize - 20);
         this.fullB.style('border-radius', '50%');
@@ -879,6 +878,7 @@ class Menu {
             buttons[i].style('opacity', this.buttonOpacity);
             if (this.buttonOpacity < 0.1) {
                 buttons[i].style('display: none');
+                this.buttonOpacity = 0;
             } else {
                 buttons[i].style('display: inline-block');
             }

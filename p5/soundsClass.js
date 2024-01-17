@@ -78,7 +78,7 @@ const spazio = new Tone.Sampler({
     },
     attack: 0,
     release: 3,
-    volume: 0
+    volume: 1
 }).chain(master);
 
 const bowgart = new Tone.Sampler({
@@ -251,7 +251,7 @@ const filla = new Tone.Sampler({
     },
     attack: 0,
     release: 3,
-    volume: 0
+    volume: -2
 }).chain(master);
 
 const pkit = new Tone.Sampler({
@@ -419,8 +419,8 @@ class Sounds {
                 Tone.loaded().then(() => {
                     // const instrument = [bowgart, skotos, absynth, element, centralPros];
                     // const instrument = [bowgart, pkit, absynth, element, centralPros];
-                    const instrument = [element, pharoh, spazio, filla, centralPros, outspace, skotos, twinkle];
-                    const length = [5, 3, 2, 5, 4, 2, 2, 2];
+                    const instrument = [element, pharoh, spazio, twinkle, centralPros, outspace, skotos, filla];
+                    const length = [5, 2, 3, 2, 4, 2, 2, 5];
 
                     // instrument.triggerAttackRelease(notes, duration, time, velocity)
                     // instrument[this.calculateInstrument(this.target.radius)].triggerAttackRelease(this.scale[this.defineScale()], length[this.calculateInstrument(this.target.radius)], Tone.now(), this.calculateVelocity());

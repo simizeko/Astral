@@ -54,8 +54,8 @@ let sunMass = 120;
 let initialPlanets = 0;
 let planetInfluence = 1;
 // let planetInfluence = 2;
-let planetGravityStrength = 0.65;
-// let planetGravityStrength = 0.15;
+// let planetGravityStrength = 0.65;
+let planetGravityStrength = 0.33;
 // let planetGravityStrength = 1;
 let mergePlanets = true;
 
@@ -83,7 +83,7 @@ let scalar;  // set the radius of camera  movement circle
 let startX = 0;	// set the x-coordinate for the circle center
 let startY = 0;	// set the y-coordinate for the circle center
 
-let debugMode = true;
+let debugMode = false;
 let leftSide;
 let topSide;
 
@@ -376,7 +376,6 @@ function mouseReleased() {
 /////////////////////////////////////////////////////////
 
 function draw() {
-    print(WebMidi.octaveOffset);
     if (openMenu) {
         menu.Active();
     }
