@@ -70,11 +70,11 @@ By default Astral uses channels 1-8 based on the mass of the triggering body. Al
 
 ### Note Length
 
-Adjust how long the note is 'held down' in seconds.
+Adjust how long the notes are 'held down' in seconds.
 
 ### Transpose Octave
 
-Useful when the MIDI software/hardware Astral is outputting to doesn't feature the ability to transpose incoming notes.
+Useful when the MIDI software/hardware Astral is outputting to, doesn't feature the ability to transpose incoming notes.
 
 ### Output Device
 
