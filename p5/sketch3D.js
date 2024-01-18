@@ -134,7 +134,7 @@ function windowResized() {
     menu.MenuButtons();
 
     FindCenter();
-    sun = new Sun(center.x, center.y, sunMass);
+    // sun = new Sun(center.x, center.y, sunMass);
 
     if (desktop) {
         cam.Resize();
@@ -151,6 +151,7 @@ function windowResized() {
             menu.OpenMidiPage();
         }
     }
+    sun = new Sun(center.x, center.y, sunMass);
 }
 
 function SwitchMode() {
