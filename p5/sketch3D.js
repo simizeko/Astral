@@ -526,7 +526,7 @@ function draw() {
             cam.debugHUD(); // Display camera position info for debug
         }
     }
-    sun.BHshow();
+    
     midi.listOuts();
 
     if (menu.midiMode && midiDevice && midiAccess) {
@@ -542,7 +542,7 @@ function draw() {
     // print('desktop is ' + desktop, webglVersion);
     // print(sounds.defineScale, sounds.notesTest[3]);
     // print(keyVal);
-
+    sun.BHshow();
 }
 
 function Debug2D() {
