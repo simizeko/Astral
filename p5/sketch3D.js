@@ -543,9 +543,9 @@ function draw() {
     // print('desktop is ' + desktop, webglVersion);
     // print(sounds.defineScale, sounds.notesTest[3]);
     // print(keyVal);
-    base.onload = () => {
+    // base.onload = () => {
         sun.BHshow();
-      }
+    //   }
 }
 
 function Debug2D() {

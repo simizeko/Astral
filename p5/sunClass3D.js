@@ -144,46 +144,48 @@ class Sun {
             noStroke();
             imageMode(CENTER);
             // this.slice.background(255, 0, 0);
-            this.slice.copy(base, int((width / 2) - this.warpW / 2), int((height / 2) - this.radius / 2), int(this.radius), int(this.radius), this.x, 0, int(this.radius), int(this.radius));
-            // this.x = (this.x + this.warpW) % this.slice.width;
+            if (this.slice) {
+                this.slice.copy(base, int((width / 2) - this.warpW / 2), int((height / 2) - this.radius / 2), int(this.radius), int(this.radius), this.x, 0, int(this.radius), int(this.radius));
+                // this.x = (this.x + this.warpW) % this.slice.width;
 
 
-            this.jitter += random(0.5, -0.5);
-            if (this.jitter >= 4) {
-                this.jitter = 3.9;
-            } if (this.jitter <= 2) {
-                this.jitter = 2.1;
+                this.jitter += random(0.5, -0.5);
+                if (this.jitter >= 4) {
+                    this.jitter = 3.9;
+                } if (this.jitter <= 2) {
+                    this.jitter = 2.1;
+                }
+
+                // Rotating background projection
+                push();
+                rotateY(this.angleY);
+                translate(0, 0, -this.radius / 1.25);
+                // blendMode(LIGHTEST);
+                ambientLight(255);
+                texture(this.slice);
+                rotateY(PI);
+                rotateZ(this.angle);
+                sphere(this.radius / 1.25);
+                rotateZ(-this.angle)
+                this.angle += 0.1;
+                pop()
+
+                // Zoomed background projection
+                push();
+                ambientLight(255);
+                rotateY(this.angleY);
+                texture(this.slice);
+                ellipse(0, 0, this.radius * 1.3);
+                blendMode(BLEND);
+                translate(0, 0, 2);
+                emissiveMaterial(0);
+                rotateZ(this.angle);
+                ellipse(0, 0, this.radius);
+                strokeWeight(random(1, 6));
+                noFill();
+                ellipse(0, 0, this.radius * 1.3)
+                pop();
             }
-
-            // Rotating background projection
-            push();
-            rotateY(this.angleY);
-            translate(0, 0, -this.radius / 1.25);
-            // blendMode(LIGHTEST);
-            ambientLight(255);
-            texture(this.slice);
-            rotateY(PI);
-            rotateZ(this.angle);
-            sphere(this.radius / 1.25);
-            rotateZ(-this.angle)
-            this.angle += 0.1;
-            pop()
-
-            // Zoomed background projection
-            push();
-            ambientLight(255);
-            rotateY(this.angleY);
-            texture(this.slice);
-            ellipse(0, 0, this.radius * 1.3);
-            blendMode(BLEND);
-            translate(0, 0, 2);
-            emissiveMaterial(0);
-            rotateZ(this.angle);
-            ellipse(0, 0, this.radius);
-            strokeWeight(random(1, 6));
-            noFill();
-            ellipse(0, 0, this.radius * 1.3)
-            pop();
 
             // Inner sphere
             push();
