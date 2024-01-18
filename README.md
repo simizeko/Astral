@@ -13,8 +13,8 @@ Different speeds effect the elliptic orbit and the consistency of repeated notes
 
 ### Mode
 
-Select a diatonic mode.  
-The starting note is C. This can only be changed while using **Midi Mode**
+Select a key and diatonic mode for default and Midi output. 
+Default is C Lydian.
 
 ### Grid
 
@@ -42,6 +42,18 @@ Disable or enable the merging of bodies when they touch.
 
 Clears all bodies from the canvas.
 
-### Midi Options
+### Midi Options Button
 
 Opens a new menu to access Astral's midi options.
+
+## Midi Options
+
+To use Astral's midi features you must be using a browser compatible with The Web MIDI API.
+
+### Midi Mode
+
+Midi Mode turns off the default sounds and sends all notes to the selected midi output.
+
+### Channels
+
+By default Astral uses channels 1-8 based on the triggering body's mass. Although you may wish to send all output to a single midi channel, if for example you want all bodies no matter their size to trigger a single instrument. All bodies can be set to fire on channel 1,2 or 3.
