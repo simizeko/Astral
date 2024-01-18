@@ -2,8 +2,8 @@
 
 Astral is a...  
 3D and 2D versions  
-3D and 2D differences
-To use with a DAW keep Astral open on the samedesktop.
+3D and 2D differences  
+To use with a DAW keep Astral open on the samedesktop.  
 use with your DAW to:
 - add some organic shifting to melodies
 - sprinkle some random percussion
