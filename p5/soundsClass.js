@@ -353,11 +353,13 @@ class Sounds {
         this.startCounter = false;
         this.trigCounter = 0;
         this.trigSize = 0;
-        this.notesTest = [];
+        this.notes2 = [];
         this.tonic = 0;
+        this.modeChange = false;
+        this.notesDisplay = [];
 
 
-        this.chromatic = ['C3', 'C#3', 'D3', 'D#3', 'E3', 'F3', 'F#3', 'G3', 'G#3', 'A3', 'A#3', 'B3', 'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4'];
+        this.chromatic = ['C3', 'Db3', 'D3', 'Eb3', 'E3', 'F3', 'F#3', 'G3', 'Ab3', 'A3', 'Bb3', 'B3', 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'F#4', 'G4', 'Ab4', 'A4', 'Bb4', 'B4'];
 
         this.scales = [
             [0, 2, 4, 5, 7, 9, 11, 12],
@@ -369,22 +371,20 @@ class Sounds {
             [0, 1, 3, 5, 6, 8, 10, 12]
         ];
 
-
-
-        this.notes = [
-            ['C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4'],
-            ['C3', 'D3', 'D#3', 'F3', 'G3', 'A3', 'A#3', 'C4'],
-            ['C3', 'C#3', 'D#3', 'F3', 'G3', 'G#3', 'A#3', 'C4'],
-            ['C3', 'D3', 'E3', 'F#3', 'G3', 'A3', 'B3', 'C4'],
-            ['C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'A#3', 'C4'],
-            ['C3', 'D3', 'D#3', 'F3', 'G3', 'G#3', 'A#3', 'C4'],
-            ['C3', 'C#3', 'D#3', 'F3', 'F#3', 'G#3', 'A#3', 'C4']
-        ];
+        // this.notes = [
+        //     ['C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4'],
+        //     ['C3', 'D3', 'D#3', 'F3', 'G3', 'A3', 'A#3', 'C4'],
+        //     ['C3', 'C#3', 'D#3', 'F3', 'G3', 'G#3', 'A#3', 'C4'],
+        //     ['C3', 'D3', 'E3', 'F#3', 'G3', 'A3', 'B3', 'C4'],
+        //     ['C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'A#3', 'C4'],
+        //     ['C3', 'D3', 'D#3', 'F3', 'G3', 'G#3', 'A#3', 'C4'],
+        //     ['C3', 'C#3', 'D#3', 'F3', 'F#3', 'G#3', 'A#3', 'C4']
+        // ];
 
         this.defineScale = 3;
         let iterator = this.scales[this.defineScale];
         for (let value of iterator) {
-            this.notesTest.push(this.chromatic[value + this.tonic]);
+            this.notes2.push(this.chromatic[value]);
         }
 
         if (desktop) {
@@ -394,20 +394,32 @@ class Sounds {
         }
     }
 
-    Populate() {
-        this.notesTest.splice(0, this.notesTest.length);
-        let iterator = this.scales[sounds.defineScale];
-        for (let value of iterator) {
-            this.notesTest.push(this.chromatic[value + this.tonic]);
+    Init() {
+        // Create new array of notes without the numbers for grid display
+        sounds.notesDisplay.splice(0, this.notesDisplay.length);
+        let n;
+        for (let i = 0; i < sounds.notes2.length; i++) {
+            n = sounds.notes2[i].replace(/[0-9]/g,'');
+            sounds.notesDisplay.push(n)
         }
-        // print(this.notesTest);
-        sounds.notesTest = this.notesTest;
     }
 
     ModeSelect() {
         let modeS = menu.mode.indexOf(modeVal);
         this.defineScale = modeS;
-        // this.Populate();
+
+        // If menu mode button changed it checks for the new values
+        if (sounds.modeChange) {
+            this.notes2.splice(0, this.notes2.length);
+            let iterator = this.scales[sounds.defineScale];
+            for (let value of iterator) {
+                this.notes2.push(this.chromatic[value + keyVal]);
+            }
+            sounds.notes2 = this.notes2;
+
+            this.Init();
+        }
+        sounds.modeChange = false;
     }
 
     trigger() {
@@ -432,8 +444,8 @@ class Sounds {
                     // instrument.triggerAttackRelease(notes, duration, time, velocity)
                     // instrument[this.calculateInstrument(this.target.radius)].triggerAttackRelease(this.scale[this.defineScale()], length[this.calculateInstrument(this.target.radius)], Tone.now(), this.calculateVelocity());
 
-                    instrument[this.calculateInstrument(this.target.radius)].triggerAttackRelease(sounds.notesTest[this.calculateNote()], length[this.calculateInstrument(this.target.radius)], Tone.now(), this.calculateVelocity());
-                    print(sounds.notesTest[this.calculateNote()]);
+                    instrument[this.calculateInstrument(this.target.radius)].triggerAttackRelease(sounds.notes2[this.calculateNote()], length[this.calculateInstrument(this.target.radius)], Tone.now(), this.calculateVelocity());
+                    // print(sounds.notes2[this.calculateNote()]);
                     // print(sounds.defineScale);
 
                     // basfin.triggerAttackRelease(this.notes[this.calculateNote()], length[this.calculateInstrument(this.target.radius)]);
@@ -448,12 +460,12 @@ class Sounds {
                         let calculateChannel = this.calculateInstrument(this.target.radius) + 1;
                         let output1 = WebMidi.getOutputByName(menu.outputDropdown.selected());
                         let channelOut1 = output1.channels[calculateChannel];
-                        channelOut1.playNote(this.notes[this.defineScale][this.calculateNote()], { duration: lengthVal });
+                        channelOut1.playNote(sounds.notes2[this.calculateNote()], { duration: lengthVal });
                         // channelOut1.stopNote();
                     } else {
                         let output2 = WebMidi.getOutputByName(menu.outputDropdown.selected());
                         let channelOut2 = output2.channels[midi.outputChannel];
-                        channelOut2.playNote(this.notes[this.defineScale][this.calculateNote()], { duration: lengthVal });
+                        channelOut2.playNote(sounds.notes2[this.calculateNote()], { duration: lengthVal });
 
                     }
                 }
@@ -586,10 +598,10 @@ class Sounds {
                 } else {
                     posV = 2
                 }
-                text(this.notesTest[y - 2], 0, (-height / posV) + (currentDiameter / 2) + gapSize);
-                this.notesTest.reverse();
-                text(this.notesTest[y - 2], 0, (currentDiameter / 2) + gapSize);
-                this.notesTest.reverse();
+                text(this.notesDisplay[y - 2], 0, (-height / posV) + (currentDiameter / 2) + gapSize);
+                this.notesDisplay.reverse();
+                text(this.notesDisplay[y - 2], 0, (currentDiameter / 2) + gapSize);
+                this.notesDisplay.reverse();
                 pop();
 
                 push();

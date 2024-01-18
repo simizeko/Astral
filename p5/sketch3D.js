@@ -204,6 +204,7 @@ function setup() {
     // let tt = gl.getParameter(gl.VERSION);
 
     sounds = new Sounds();
+    sounds.Init();
     // Tone.context.resume();
     midi = new MidiOut();
     midi.setup();
@@ -540,6 +541,7 @@ function draw() {
     // print(menu.menuB.style.opacity);
     // print('desktop is ' + desktop, webglVersion);
     // print(sounds.defineScale, sounds.notesTest[3]);
+    // print(keyVal);
 
 }
 

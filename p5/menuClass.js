@@ -1,6 +1,7 @@
 let menu;
 let orbitVal;
 let modeVal;
+let keyVal;
 let gridVal;
 let colVal;
 let gravVal;
@@ -79,10 +80,11 @@ class Menu {
 
         this.orbitButtons;
         this.modeButtons;
+        this.modeKey;
         this.gridButtons;
         this.displayButtons = [];
         this.idleButton;
-        this.mergeButtonss
+        this.mergeButtons;
         this.midiButton;
         this.midiModeButton;
         this.channelButtons;
@@ -99,6 +101,7 @@ class Menu {
         openMenu = false;
         orbitVal = 'II';
         modeVal = 'IV';
+        keyVal = 0;
         gridVal = 'Fade';
         colVal = true;
         gravVal = false;
@@ -308,6 +311,7 @@ class Menu {
         // Stores values for when menu closes
         orbitVal = this.orbitButtons.value();
         modeVal = this.modeButtons.value();
+        keyVal = this.modeKey.value();
         gridVal = this.gridButtons.value();
         colVal = this.displayButtons[0].checked();
         gravVal = this.displayButtons[1].checked();
@@ -423,7 +427,8 @@ class Menu {
         }
 
         // Title change for mode
-        this.modeTitle.html('Mode: ' + this.modeLabel[this.mode.indexOf(modeVal)]);
+        let k = sounds.chromatic[keyVal].replace(/[0-9]/g,'');
+        this.modeTitle.html('Mode: ' + k + ' ' + this.modeLabel[this.mode.indexOf(modeVal)]);
     }
 
 
@@ -467,13 +472,19 @@ class Menu {
         this.Item(title, colour, true);
 
         // Custom Title
-        this.modeTitle = createElement('h2', 'Mode: ' + this.modeLabel[this.mode.indexOf(modeVal)]);
+        this.modeTitle = createElement('h2', 'Mode: ');
         this.modeTitle.parent(this.div);
         this.modeTitle.style('padding', this.padding);
         this.modeTitle.style('padding-top', '2.5%');
         this.modeTitle.style('margin', '0px');
         this.modeTitle.style('font-size', this.h2Size);
         this.modeTitle.style('font-weight: 100');
+
+        this.modeKey = createSlider(0, 11, keyVal).addClass('defaultStyle')
+        this.modeKey.parent(this.div);
+        this.modeKey.changed(() => {
+            sounds.modeChange = true;
+        });
 
         this.modeButtons = createRadio('M');
         for (let i = 0; i < options.length; i++) {
@@ -484,7 +495,9 @@ class Menu {
         this.modeButtons.style('margin-right', this.padding);
         this.modeButtons.style('margin-bottom', this.padding);
         this.modeButtons.selected(modeVal);
-        this.modeButtons.changed(sounds.Populate);
+        this.modeButtons.changed(() => {
+            sounds.modeChange = true;
+        });
     }
 
     Grid(title, colour, options) {
@@ -670,9 +683,6 @@ class Menu {
 
         this.lengthSlider = createSlider(100, 8000, lengthVal, 100).addClass('defaultStyle');
         this.lengthSlider.parent(this.div);
-        this.lengthSlider.style('margin-left', this.padding);
-        this.lengthSlider.style('margin-right', this.padding);
-        this.lengthSlider.style('margin-bottom', this.padding);
     }
 
     MidiOffset(title, colour) {
@@ -686,13 +696,12 @@ class Menu {
         this.offsetTitle.style('font-size', this.h2Size);
         this.offsetTitle.style('font-weight: 100');
 
-        this.offsetSlider = createSlider(-4,4, offsetVal).addClass('defaultStyle');
+        this.offsetSlider = createSlider(-4, 4, offsetVal).addClass('defaultStyle');
         this.offsetSlider.parent(this.div);
         this.offsetSlider.style('margin-top', '0px');
-        this.offsetSlider.style('margin', this.padding);
         this.offsetSlider.changed(() => {
             WebMidi.octaveOffset = offsetVal;
-          });
+        });
 
     }
 
