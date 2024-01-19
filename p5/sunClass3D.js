@@ -277,7 +277,6 @@ class Sun {
             stroke(cc.stars);
             strokeWeight(2);
             let r = (height / 2) / tan(PI / 6); // size of sphere made of dots
-            // let r = cam.defaultD;
             let total = 10;
             for (let i = 0; i < total; i++) {
                 let longitude = map(i, 0, total, -PI, PI);
@@ -292,7 +291,7 @@ class Sun {
             pop();
         } else {
             push();
-            translate(width / 2, height / 2,);
+            translate(width / 2, height / 2);
             stroke(cc.stars);
             strokeWeight(this.starsSize);
             this.starsRotate += this.starsRotationSpeed;
