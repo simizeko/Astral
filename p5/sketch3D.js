@@ -7,7 +7,7 @@ let menuWht;
 let astralTitle;
 let astralBodies;
 let bodiesRotation = 0;
-let bodiesRotationSpeed = 0.01;
+let bodiesRotationSpeed = 0.002;
 let fullScrn = false;
 let fullOpen;
 let desktop;
@@ -65,6 +65,7 @@ let planetInfluence = 1;
 let planetGravityStrength = 0.33;
 // let planetGravityStrength = 1;
 let mergePlanets = true;
+let planetResolution = 16;
 
 let orbitSpeed = {
     initialMag: 1.25,
@@ -174,12 +175,15 @@ function SwitchMode() {
     desktop = !desktop;
     new p5();
 }
-
 function CanvasSelect() {
     if (desktop) {
         // font = loadFont('./assets/hindLight.otf')
         // setAttributes('antialias', true);
-        // setAttributes({ alpha: true });
+        // setAttributes({ alpha: false });
+        // setAttributes({ premultipliedAlpha: false });
+        // setAttributes('premultipliedAlpha', false);
+        // setAttributes('depth', false);
+        setAttributes("alpha", true);
         setAttributes({ version: 2 });
         base = createCanvas(windowWidth, windowHeight, WEBGL);
         cam = new Cameras();
@@ -415,50 +419,74 @@ function StartScreen(static) {
         startButton.style('margin-top', '10px');
         startButton.style('display', 'inline')
         startButton.style('padding', '8px');
+        startButton.style('padding-bottom', '6px');
         startButton.style('width', '10vw');
         startButton.style('background-color', 'black');
         startButton.style('border', '1px solid white');
         startButton.style('color', 'white');
         startButton.style('font-family', fontMenu);
         startButton.style('cursor', 'pointer');
-        // startButton.style('letter-spacing', '5px');
+        startButton.style('letter-spacing', '3px');
         // startButton.style('text-align', 'center');
         // startButton.style('border-radius', '4px');
-        startButton.mousePressed(() => {
+        startButton.mouseReleased(() => {
             container.remove();
             firstLoad = false
             setup();
         });
     }
     background(0);
-    lightFalloff(0.48, 0, 0);
-    ambientLight(12);
-    pointLight(color(255), center.x, center.y, -350);
+    if (desktop) {
+        lightFalloff(0.5, 0, 0);
+        // ambientLight(15);
+        // pointLight(color(255), center.x, center.y, -350);
+        pointLight(color(255), mouseX - width / 2, mouseY - height / 2, -300);
 
-    let diameter = width / 8;
-    if (diameter <= 130) {
-        diameter = 130;
+        let diameter = width / 8;
+        if (diameter <= 130) {
+            diameter = 130;
+        }
+        let bodiesCount = 10;
+        // let bodiesCount = 50;
+        let angle = Math.PI * 2 / bodiesCount;
+
+        noStroke();
+        ambientMaterial(255);
+        bodiesRotation += bodiesRotationSpeed;
+        translate(0, -2, 0);
+        rotate(bodiesRotation);
+        translate(diameter / -2, diameter * 1.5, 0);
+        for (var i = 0; i < bodiesCount; i++) {
+
+            x = center.x + cos(angle * i) * diameter;
+            y = center.y - sin(angle * i) * diameter;
+            translate(x, y, 0);
+            // sphere(20);
+            // sphere(50);
+            sphere(30);
+        }
+    } else {
+        let diameter = width / 5;
+        if (diameter <= 240) {
+            diameter = 240;
+        }
+        let bodiesCount = 10;
+        // let bodiesCount = 50;
+        let angle = Math.PI * 2 / bodiesCount;
+
+        noStroke();
+        fill(255);
+        bodiesRotation += bodiesRotationSpeed;
+        translate(width / 2, height / 2);
+        rotate(bodiesRotation);
+        translate(-width / 2, -height / 2);
+        for (var i = 0; i < bodiesCount; i++) {
+
+            x = center.x + cos(angle * i) * diameter;
+            y = center.y - sin(angle * i) * diameter;
+            ellipse(x, y, 30);
+        }
     }
-    let bodiesCount = 10;
-    // let bodiesCount = 50;
-    let angle = Math.PI * 2 / bodiesCount;
-
-    noStroke();
-    ambientMaterial(255);
-    bodiesRotation += bodiesRotationSpeed;
-    translate(0, -2, 0);
-    rotate(bodiesRotation);
-    translate(diameter / -2, diameter * 1.5, 0);
-    for (var i = 0; i < bodiesCount; i++) {
-
-        x = center.x + cos(angle * i) * diameter;
-        y = center.y - sin(angle * i) * diameter;
-        translate(x, y, 0);
-        // sphere(20);
-        sphere(15);
-    }
-
-
     pop();
 }
 
@@ -496,7 +524,7 @@ function draw() {
             pointLight(cc.R, cc.G, cc.B, 0, 0, 150);
             pointLight(cc.R, cc.G, cc.B, 0, 0, -150);
         }
-
+        
         push();
         if (createPlanet && mouseIsPressed) {
             if (grow <= 2) {
@@ -532,17 +560,19 @@ function draw() {
                                             ColourMode('emissive', [50, 190, 150]);
                                         }
             if (desktop) {
+                push();
                 // translate(0, 0, 1);
                 noStroke();
                 ellipse(mouseX - width / 2, mouseY - height / 2, calculateMass(grow));
-                emissiveMaterial(cc.bg);
-                ellipse(mouseX - width / 2, mouseY - height / 2, calculateMass(grow / 1.85));
+                // emissiveMaterial(cc.bg);
+                // ellipse(mouseX - width / 2, mouseY - height / 2, calculateMass(grow / 1.85));
+                pop();
             } else {
                 push();
                 noStroke();
                 ellipse(mouseX, mouseY, calculateMass(grow));
-                fill(cc.bg);
-                ellipse(mouseX, mouseY, calculateMass(grow / 2.5));
+                // fill(cc.bg);
+                // ellipse(mouseX, mouseY, calculateMass(grow / 2.5));
                 pop();
             }
             // grow += 0.037; //growth speed
@@ -610,8 +640,8 @@ function draw() {
             planets[i].sounds.visualFeedback();
             // planets[i].sounds.calculateLength();
         }
-
         sun.stars();
+        sun.BHshow();
         if (desktop) {
             cam.update();
             if (debugMode) {
@@ -635,7 +665,7 @@ function draw() {
         // print(sounds.defineScale, sounds.notesTest[3]);
         // print(keyVal);
         // base.onload = () => {
-        sun.BHshow();
+        // sun.BHshow();
         //   }
     }
 }

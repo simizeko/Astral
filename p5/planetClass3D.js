@@ -44,7 +44,7 @@ class Planets {
             push();
             ambientMaterial(255);
             translate(this.position.x, this.position.y, 0);
-            sphere(this.radius / 2, 9, 9);
+            sphere(this.radius / 2, planetResolution, planetResolution);
             pop();
         } else {
             push();

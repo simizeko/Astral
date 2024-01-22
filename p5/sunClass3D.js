@@ -192,12 +192,14 @@ class Sun {
             rotateY(this.angleY);
             noStroke();
             // blendMode(REPLACE);
-            translate(0, 0, this.radius);
-            // emissiveMaterial(1);
-            // ambientMaterial(255);
+            // translate(0,0,this.radius);
+            // emissiveMaterial(0);
+            // ambientMaterial(0);
             fill(0);
-            sphere(this.radius / 2.2);
-            blendMode(BLEND)
+            // sphere(this.radius / 2.2);
+            sphere(this.radius / 1.8);
+            // sphere(this.radius)
+            // blendMode(BLEND)
             pop();
 
             this.angleY += cam.angleY;
@@ -211,24 +213,24 @@ class Sun {
                 let currentDiameter = maxDiameter * (numberOseg - y);
 
 
-                // rotateY(PI);
+                // Disc around BH
                 push();
                 noStroke();
                 // blendMode(LIGHTEST);
                 emissiveMaterial(255);
                 // emissiveMaterial(cc.R, cc.G, cc.B);
                 // fill(cc.R, cc.G, cc.B);
-                // translate(0, 0, -sun.radius / 2.5);
-                translate(0, 4, 0)
+                translate(0, 2, 0);
                 rotateX(PI / 2);
-                rotateX(random(-0.03, -0.025));
+                // rotateX(random(-0.03, -0.025));
+                rotateX(random(-0.02, -0.015));
                 rotateZ(-this.angleY);
                 // rotateZ(this.rot);
-                translate(0, 0, 0 + y)
+                // translate(0, 0, y);
                 strokeWeight(1);
                 // stroke(cc.highlight);
                 stroke(cc.R, cc.G, cc.B);
-                ellipse(0, 0, currentDiameter / 1.3, currentDiameter * 1.25);
+                ellipse(0, 0, currentDiameter / 1.75, currentDiameter * 2);
                 // blendMode(BLEND);
                 pop();
 

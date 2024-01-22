@@ -251,7 +251,7 @@ const filla = new Tone.Sampler({
     },
     attack: 0,
     release: 3,
-    volume: -2
+    volume: 0
 }).chain(master);
 
 const pkit = new Tone.Sampler({
@@ -399,7 +399,7 @@ class Sounds {
         sounds.notesDisplay.splice(0, this.notesDisplay.length);
         let n;
         for (let i = 0; i < sounds.notes2.length; i++) {
-            n = sounds.notes2[i].replace(/[0-9]/g,'');
+            n = sounds.notes2[i].replace(/[0-9]/g, '');
             sounds.notesDisplay.push(n)
         }
     }
@@ -611,7 +611,7 @@ class Sounds {
                 if (cc.alpha <= 0) {
                     noStroke();
                 }
-                ellipse(center.x, center.y, currentDiameter);
+                ellipse(center.x, center.y, currentDiameter, currentDiameter, 40);
                 pop();
 
 
