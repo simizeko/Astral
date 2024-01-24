@@ -1,6 +1,12 @@
 # Astral Gravity Player
 
-Astral is a browser based audio player powered by a simple physics simulation. Mass and gravity can intereact to create generative music. Once a body has been added it will eventually find a stable orbit, but this can be changed over time by other bodies. As they pull on others and disrupt orbits, melodies shift and change.
+Astral is a browser based audio player powered by a simple physics simulation. Mass and gravity can intereact to create generative music. As bodies pull on each other and disrupt orbits, melodies shift and change.
+
+Featuring MIDI output & input, use Astral with your DAW to:
+- Create Organically shifting melodies
+- Sprinkle some semi-random percussion on your existing track
+- Periodocially add new bodies to Astral through MIDI
+- Use Astral to play your ambient pads for an ever-changing soundscape.
 
 
 
