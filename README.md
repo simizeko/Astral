@@ -8,13 +8,9 @@ Featuring MIDI output & input, use Astral with your DAW to:
 - Periodocially add new bodies to Astral through MIDI
 - Use Astral to play your ambient pads for an ever-changing soundscape.
 
-#### Desktop
+**Desktop:** Desktop will open a 3D version of Astral. If the window's frame rate becomes too low, you will be prompted to switch to the 2D version.
 
-Desktop will open a 3D version of Astral. If the window's frame rate becomes too low, you will be prompted to switch to the 2D version.
-
-#### Mobile
-
-Mobile devices will open a 2D version of Astral. The 2D version is less demanding than the full 3D version and should allow for smoother experience on mobile and less powerful desktop systems.
+**Mobile:** Mobile devices will open a 2D version of Astral. The 2D version is less demanding than the full 3D version and should allow for smoother experience on mobile and less powerful desktop systems.
 
 ## Options
 
@@ -25,7 +21,7 @@ Different speeds effect the elliptic orbit and the consistency of repeated notes
 
 ### Mode
 
-Select a key and diatonic mode for default and MIDI output. 
+Select a key and diatonic mode for standard and MIDI output. 
 Default is C Lydian.
 
 ### Grid
