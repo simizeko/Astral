@@ -8,17 +8,13 @@ Featuring MIDI output & input, use Astral with your DAW to:
 - Periodocially add new bodies to Astral through MIDI
 - Use Astral to play your ambient pads for an ever-changing soundscape.
 
+#### Desktop
 
+Desktop will open a 3D version of Astral. If the window's frame rate becomes too low, you will be prompted to switch to the 2D version.
 
-3D and 2D versions  
-3D and 2D differences  
-To use with a DAW keep Astral open on the samedesktop.  
-use with your DAW to:
-- add some organic shifting to melodies
-- sprinkle some random percussion
-- use astral to power effects
-- add new bodies using notes from your music
-- Enhance ambient pads by creating a loose, ever-changing rhythm
+#### Mobile
+
+Mobile devices will open a 2D version of Astral. The 2D version is less demanding than the full 3D version and should allow for smoother experience on mobile and less powerful desktop systems.
 
 ## Options
 
