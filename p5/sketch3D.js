@@ -132,6 +132,10 @@ function keyPressed() {
     } else if (keyCode === DOWN_ARROW) {
         showInfluence = false;
     }
+
+    if (keyCode === 81) {
+        planets.splice(0, planets.length);
+    }
 }
 
 function windowResized() {
@@ -225,6 +229,8 @@ function setup() {
         // Tone.context.resume();
         midi = new MidiOut();
         midi.setup();
+
+        // RecordScreen();
 
         // sunMass = height / sunRadius;
         sun = new Sun(center.x, center.y, sunMass);
@@ -710,5 +716,39 @@ function Debug2D() {
     pop();
 }
 
+
+function RecordScreen() {
+let btn = createButton('Button');
+let chunks =[];
+function record() {
+    chunks.length = 0;
+    let stream = document.querySelector('canvas').captureStream(30),
+      recorder = new MediaRecorder(stream);
+    recorder.ondataavailable = e => {
+      if (e.data.size) {
+        chunks.push(e.data);
+      }
+    };
+    recorder.onstop = exportVideo;
+    btn.onclick = e => {
+      recorder.stop();
+      btn.textContent = 'start recording';
+      btn.onclick = record;
+    };
+    recorder.start();
+    btn.textContent = 'stop recording';
+  }
+  
+  function exportVideo(e) {
+    let blob = new Blob(chunks);
+    let vid = document.createElement('video');
+    vid.id = 'recorded'
+    vid.controls = true;
+    vid.src = URL.createObjectURL(blob);
+    document.body.appendChild(vid);
+    vid.play();
+  }
+  btn.onclick = record;
+}
 
 
